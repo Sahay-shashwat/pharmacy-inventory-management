@@ -1,4 +1,4 @@
-from flask import Flask,render_template,redirect,request
+from flask import Flask,render_template,redirect,request,jsonify
 app = Flask(__name__)
 
 from PIM import Database
@@ -107,6 +107,21 @@ def vendor_master():
 @app.route("/purchase_reg")
 def purchase_reg():
     return render_template("purchase_reg.html") 
+
+@app.route('/purchase_register', methods=['POST'])
+def purchase_register():
+    data = request.form
+    products = data.getlist('product[]')
+    rates = data.getlist('rate[]')
+    quantities = data.getlist('quantity[]')
+    vendor_name = data.getlist('vendor_name')
+    challan = data.getlist('challan')
+    Bill_date = data.getlist('Bill_date')
+
+    print(products)
+
+
+    return jsonify({"message": "Data received successfully"})
 
 if __name__ == '__main__':
     app.run(debug=True)

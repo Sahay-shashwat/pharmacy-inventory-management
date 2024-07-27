@@ -1,0 +1,88 @@
+body {
+    background-color: #BBD5ED;
+    color: #38023B;
+    font-family: "Inter", sans-serif;
+    font-family: "Source Sans Pro", sans-serif;
+    }
+    
+    #full {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    #bill {
+      width: 30%;
+      text-align: center;
+    }
+
+    #head {
+      margin-top: 20px;
+    }
+
+    #form{
+      text-align: left;
+    }
+
+    #item {
+      width: 60%;
+      text-align: center;
+    }
+
+    #head1 {
+      margin-top: 20px;
+    }
+
+    #dynamicForm .field-group {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+          
+    .required{
+        color: #d62828;
+      }
+      
+      label {
+        display: block;
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: bold;
+      }
+      
+      input[type="text"],
+      input[type="date"],
+      input[type="number"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+
+      #remove {
+        background-color: #003049;
+        color: white;
+        padding: 5px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+        text-align: center;
+      }
+
+      #addField, #submit {
+        background-color: #003049;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+        text-align: center;;
+      }
