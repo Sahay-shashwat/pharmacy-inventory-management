@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/dashboard.css') }}">
+    <title>Dashboard</title>
+</head>
+<body>
+    <div id = "head">
+        <h1> DASHBOARD </h1>
+    </div>
+    <div id="options">
+        <a href="{{ url_for('item_master')}}" >
+            ADD PRODUCT
+        </a>
+        <a href="{{ url_for('item_master')}}" >
+            ADD CUSTOMER
+        </a>
+        <a href="{{ url_for('item_master')}}" >
+            ADD VENDOR
+        </a>
+        <a href="{{ url_for('item_master')}}" >
+            BUY PRODUCT
+        </a>
+        <a href="{{ url_for('item_master')}}" >
+            SELL PRODUCT
+        </a>
+    </div>
+</body>
+</html>

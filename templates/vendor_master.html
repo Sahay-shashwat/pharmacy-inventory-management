@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/forms.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Vendor Master</title>
+</head>
+<body>
+    <div id = "head">
+        <h1> VENDOR MASTER </h1>
+    </div>
+    <div>
+        <form action='/vendor_master' method="POST" enctype="multipart/form-data" id="form">
+            <label for="vendor_name">Vendor Name<span class="required">*</span></label><br>
+            <input type="text" id="vendor_name" name="vendor_name" required><br>
+
+            <label for="address">Address<span class="required">*</span></label><br>
+            <textarea id="address" name="address" required></textarea><br>
+    
+            <label for="mobile">Contact Number<span class="required">*</span></label><br>
+            <input type="number" id="mobile" name="mobile" required><br>
+
+            <label for="GSTIN">GSTIN<span class="required">*</span></label><br>
+            <input type="number" id="GSTIN" name="GSTIN" required><br>
+
+            <label for="drug_lisc">Drug Licence Number<span class="required">*</span></label><br>
+            <input type="number" id="drug_lisc" name="drug_lisc" required><br>
+            
+            <div id="err">
+                {% if error%}
+                    <p><strong>{{error}}</strong></p>
+                {% endif%}
+            </div>
+
+            <div id="btn">
+                <input type="submit" id="submit" value="SUBMIT">
+                <a href="{{url_for('item_master')}}"><button id="button" type="button" onclick="">DASHBOARD</button></a>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript" src= "{{ url_for('static',filename='js/update_dist.js') }}"></script>
+</body>
+
+</html>

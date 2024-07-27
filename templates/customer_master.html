@@ -5,23 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/forms.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>ITEM MASTER</title>
+    <title>Customer Master</title>
 </head>
 <body>
     <div id = "head">
-        <h1> ITEM MASTER </h1>
+        <h1> CUSTOMER MASTER </h1>
     </div>
     <div>
-        <form action='/item_master' method="POST" enctype="multipart/form-data" id="form">
-            <label for="product_name">Product Name<span class="required">*</span></label><br>
-            <input type="text" id="product_name" name="product_name" required><br>
+        <form action='/customer_master' method="POST" enctype="multipart/form-data" id="form">
+            <label for="customer_name">Customer Name<span class="required">*</span></label><br>
+            <input type="text" id="customer_name" name="customer_name" required><br>
 
-            <label for="HSM">HSM Code<span class="required">*</span></label><br>
-            <input type="text" id="HSM" name="HSM" required><br>
+            <label for="address">Address<span class="required">*</span></label><br>
+            <textarea id="address" name="address" required></textarea><br>
     
-            <label for="GST">GST Percentage<span class="required">*</span></label><br>
-            <input type="number" id="GST" name="GST" required><br>
-            
+            <label for="mobile">Contact Number<span class="required">*</span></label><br>
+            <input type="number" id="mobile" name="mobile" required><br>
+
+            <label for="GSTIN">GSTIN<span class="required">*</span></label><br>
+            <input type="number" id="GSTIN" name="GSTIN" required><br>
+
             <div id="err">
                 {% if error%}
                     <p><strong>{{error}}</strong></p>

@@ -17,12 +17,16 @@ def login():
             password = request.form['password']
             flag=db.check_login(username,password)
             if (flag):
-                return redirect('/item_master')
+                return redirect('dashboard')
             else:
                 error='INVALID USERNAME OR PASSWORD'
                 return render_template('login.html',error=error)
         except:
             db.roll()
+
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard.html")
 
 @app.route("/item_master")
 def item():
