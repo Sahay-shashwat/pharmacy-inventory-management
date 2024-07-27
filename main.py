@@ -40,17 +40,70 @@ def item_master():
             name=request.form['product_name']
             HSM=request.form['HSM']
             GST=request.form['GST']
-            id=db.getID(item_master)
+            rate=request.form['Rate']
+            id=db.getID('item_master')
             flag=db.check_data_exists(name,'item_master','Product_name')
             if(flag):
-                data=(id,name,HSM,GST,GST/2,GST/2)
+                data=(id,name,HSM,rate,GST,GST/2,GST/2)
                 db.insert_record("item_master",data)
-                return redirect('item_master')
+                return redirect('dashboard')
             else:
                 error='PRODUCT ALREADY EXISTS'
                 return render_template('item_master',error=error)
         except:
             db.roll()
+
+@app.route("/customer_master")
+def customer():
+    return render_template("customer_master.html") 
+
+@app.route("/customer_master", methods=["POST","GET"])
+def customer_master():
+    if request.method=="POST":
+        try:
+            error= None
+            custname=request.form['customer_name']
+            add=request.form['address']
+            mobile=request.form['mobile']
+            gst=request.form['GSTIN']
+            id=db.getID('customer_master')
+            flag=db.check_data_exists(custname,"customer_master",'Customer_Name')
+            if(flag):
+                data=(id,custname,add,mobile,gst)
+                db.insert_record("customer_master",data)
+                return redirect('dashboard')
+            else:
+                error='CUSTOMER ALREADY EXISTS'
+                return render_template('customer_master',error=error)
+        except:
+            db.roll()
+
+@app.route("/vendor_master")
+def customer():
+    return render_template("vendor_master.html") 
+
+@app.route("/vendor_master", methods=["POST","GET"])
+def vendor_master():
+    if request.method=="POST":
+        try:
+            error= None
+            vname=request.form['vendor_name']
+            add=request.form['address']
+            mobile=request.form['mobile']
+            gst=request.form['GSTIN']
+            drug=request.form['drug_lisc']
+            id=db.getID('vendor_master')
+            flag=db.check_data_exists(vname,"vendor_master",'Vendor_Name')
+            if(flag):
+                data=(id,vname,add,mobile,gst,drug)
+                db.insert_record("vendor_master",data)
+                return redirect('dashboard')
+            else:
+                error='VENDOR ALREADY EXISTS'
+                return render_template('vendor_master',error=error)
+        except:
+            db.roll()
+
 
 if __name__ == '__main__':
     app.run(debug=True)
