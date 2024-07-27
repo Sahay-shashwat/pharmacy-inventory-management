@@ -79,7 +79,7 @@ def customer_master():
             db.roll()
 
 @app.route("/vendor_master")
-def customer():
+def vendor():
     return render_template("vendor_master.html") 
 
 @app.route("/vendor_master", methods=["POST","GET"])
@@ -105,7 +105,7 @@ def vendor_master():
             db.roll()
 
 @app.route("/purchase_reg")
-def customer():
+def purchase_reg():
     return render_template("purchase_reg.html") 
 
 if __name__ == '__main__':

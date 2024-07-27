@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/login.css') }}">
+</head>
+
+<body>
+    <h2 id="head">PURCHASE</h2>  
+    <form id="dynamicForm" action="/purchase_reg" method="POST">
+        <div id="fieldsContainer">
+            <!-- Initial field -->
+            <div class="field-group">
+              <input type="text" name="field[]" placeholder="Enter something">
+              <button class="remove-field">Remove</button>
+            </div>
+          </div>
+          <!-- Button to add new fields -->
+          <button id="addField">Add Field</button>
+          <!-- Submit button -->
+          <button type="submit">Submit</button>
+        </form>
+</body>
+</html>

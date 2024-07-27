@@ -49,7 +49,7 @@ class Database:
                               PRID INT REFERENCES purchase_reg(ID),
                               RATE FLOAT,
                               QUANTITY INT,
-                              AMOUNT FLOAT,
+                              AMOUNT FLOAT
                               );
             ''')
             self.curr.execute('''
