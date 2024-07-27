@@ -1,0 +1,84 @@
+#head{
+    text-align: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 500px;
+    padding: 50px;
+  }
+
+  body {
+  background-color: #BBD5ED;
+  color: #38023B;
+  font-family: "Inter", sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
+  }
+  
+  .required{
+    color: #d62828;
+  }
+  
+  form {
+    width: 500px;
+    padding: 150px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    max-height: 50%;
+  }
+  
+  label {
+    display: block;
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="address"],
+  input[type="tel"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  textarea {
+    height: 100px;
+  }
+  
+  #btn{
+    width: 100%;
+  }
+
+  #submit {
+    background-color: #003049;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    float: left;
+    text-align: center;
+    position: absolute;
+    margin-top: 50px;
+  }
+
+  #button {
+    background-color: #003049;
+    color: white;
+    padding: 10px 20px;
+    margin-top : 50px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+    float: right;
+  }

@@ -5,15 +5,14 @@ class Database:
     def __init__(self):
         self.conn = mysql.connector.connect(
             user='DBMS',
-            password='asdqwe123',
+            password='DBMS',
             host = 'localhost',
-            database='DBMS'
-            )
+            database='pharm',
+        )
         if self.conn.is_connected():
             print('Connection is open')
-        else:
-            print("Error connecting")
-        self.curr = self.conn.cursor()
+        self.curr = self.conn.cursor(prepared=True)
+        self._cursor = self.curr
         try:
             self.curr.execute('''
                 CREATE TABLE IF NOT EXISTS user_details(
@@ -22,74 +21,72 @@ class Database:
                         PRIMARY KEY(ID)
                         );
             ''')
-            self.curr.execute ('''
+            self.curr.execute('''
                 CREATE TABLE IF NOT EXISTS item_master(
-                        ID INT PRIMARY KEY,
-                        product_name varchar(255) NOT NULL,
-                        HSM_Code varchar(255),
-                        GST_per float,
-                        SGST_per float,
-                        CGST_per float
-                        );
-            ''') 
-            self.curr.execute ('''
-                CREATE TABLE IF NOT EXISTS vendor_master(
-                        ID INT PRIMARY KEY,
-                        PID INT REFERENCES item_master(ID),
-                        Name varchar(255) NOT NULL,
-                        Address VARCHAR(255), 
-                        mobile VARCHAR(255),
-                        GSTIN varchar(255),
-                        drug_lisc varchar(255)
-                        );
-            ''')
-            self.curr.execute ('''
-                CREATE TABLE IF NOT EXISTS purchase_table(
-                        Bill_No INT PRIMARY KEY,
-                        PID INT REFERENCES item_master(ID),
-                        CP FLOAT,
-                        SP FLOAT,
-                        Manf_Date Date,
-                        Exp_Date Date,
-                        Purchase_Date Date
-                        );
-            ''')
-            self.curr.execute ('''
-                CREATE TABLE IF NOT EXISTS purchase_register(
-                        ID INT PRIMARY KEY,
-                        Bill_No INT REFERENCES purchase_table(Bill_No),
-                        Amount FLOAT,
-                        VID INT REFERENCES vendor_master(ID)
-                        );
-            ''')
-            self.curr.execute ('''
-                CREATE TABLE IF NOT EXISTS customer_master(
-                        ID INT PRIMARY KEY,
-                        Name varchar(255) NOT NULL,
-                        Address VARCHAR(255), 
-                        mobile VARCHAR(255),
-                        GSTIN varchar(255),
-                        );
-            ''')
-            self.curr.execute ('''
-                CREATE TABLE IF NOT EXISTS sale_table(
-                        Bill_No INT PRIMARY KEY,
-                        PID INT REFERENCES item_master(ID),
-                        MRP FLOAT,
-                        DISCOUNT FLOAT,
-                        SP FLOAT,
-                        GST FLOAT,
-                        Sale_Date Date
-                        );
-            ''') 
-            self.curr.execure('''
-                CREATE TABLE IF NOT EXISTS Sale_register(
                               ID INT PRIMARY KEY,
-                              Bill_No INT REFERENCES sale_master(Bill_No),
-                              Amount FLOAT,
-                              CID INT REFERENCES customer_master(ID)    
+                              Product_name VARCHAR(255),
+                              HSM VARCHAR(255),
+                              GST FLOAT,
+                              CGST FLOAT,
+                              SGST FLOAT
                               );
-
+            ''')
+            self.curr.execute('''
+                CREATE TABLE IF NOT EXISTS vendor_master(
+                              ID INT PRIMARY KEY,
+                              Vendor_Name VARCHAR(255),
+                              Address VARCHAR(255),
+                              Mobile INT,
+                              GSTIN VARCHAR(255),
+                              Drug_lisc VARCHAR(255)
+                              );
+            ''')
+            self.curr.execute('''
+                CREATE TABLE IF NOT EXISTS purchase_table(
+                              ID INT PRIMARY KEY,
+                              PID INT REFERENCES item_master(ID),
+                              CP FLOAT,
+                              SP FLOAT,
+                              Manf_date Date,
+                              Exp_date Date,
+                              Purchase_date Date
+                              );
+            ''')
+            self.curr.execute('''
+                CREATE TABLE IF NOT EXISTS purchase_reg(
+                              ID INT PRIMARY KEY,
+                              Bill INT REFERENCES purchase_table(ID),
+                              amount FLOAT,
+                              VID INT REFERENCES vendor_master(ID)
+                              );
+            ''')
+            self.curr.execute('''
+                CREATE TABLE IF NOT EXISTS customer_master(
+                              ID INT PRIMARY KEY,
+                              Vendor_Name VARCHAR(255),
+                              Address VARCHAR(255),
+                              Mobile INT,
+                              GSTIN VARCHAR(255)
+                              );
+            ''')
+            self.curr.execute('''
+                CREATE TABLE IF NOT EXISTS sale_table(
+                              ID INT PRIMARY KEY,
+                              PID INT REFERENCES item_master(ID),
+                              MRP FLOAT,
+                              Discount FLOAT,
+                              SP FLOAT,
+                              GST FLOAT,
+                              Sale_date Date
+                              );
+            ''')
+            self.curr.execute('''
+                CREATE TABLE IF NOT EXISTS sale_reg(
+                              ID INT PRIMARY KEY,
+                              Bill INT REFERENCES sale_table(ID),
+                              amount FLOAT,
+                              CID INT REFERENCES customer_master(ID)
+                              );
             ''')
             self.conn.commit()
         except:
@@ -107,7 +104,7 @@ class Database:
             print(username)
             if (self.curr.fetchone()[0]!=None):
                 query2="SELECT Password FROM user_details WHERE ID=?"
-                table_pass=self.curr.execute(query2,(username,))
+                self.curr.execute(query2,(username,))
                 if (self.curr.fetchone()[0] == password) :
                     return True
                 else:
@@ -117,6 +114,75 @@ class Database:
         except:
             print("ERROR FINDING DATA")
 
+
+    def check_data_exists(self,data,tname,col):
+        try:
+            query = f"SELECT COUNT(*) FROM {tname} WHERE {col}=?"
+            self.curr.execute(query,(data,))
+            data=self.curr.fetchone()[0]
+            if data!=0:
+                return True
+            else:
+                return False
+        except:
+            print("ERROR FINDING DATA")
+
+
+    def getID(self,tname):
+        query=f"SELECT MAX(ID) FROM {tname}"
+        self.curr.execute(query)
+        result = self.curr.fetchone()[0]
+        if (result == None):
+            return 1
+        return ((result)+1)
+
+    def getReferenceID(self,tname,col,data):
+        try:
+            query=f'''SELECT ID FROM {tname} WHERE {col}=?'''
+            self.curr.execute(query,(data,))
+            ref_id = self.curr.fetchone()[0]
+            return ref_id
+        except:
+            print("ERROR FINDING DATA")
+
+    
+    def insert_record(self,tname,form_data):
+        if tname == 'item_master':
+            try:
+                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?)",form_data)
+            finally:
+                self.conn.commit()
+        if tname == 'vendor_master':
+            try:
+                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?)",form_data)
+            finally:
+                self.conn.commit()
+        if tname == 'purchase_table':
+            try:
+                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?,?)",form_data)
+            finally:
+                self.conn.commit()
+        if tname == 'purchase_reg':
+            try:
+                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?)",form_data)
+            finally:
+                self.conn.commit()
+        if tname == 'customer_master':
+            try:
+                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?)",form_data)
+            finally:
+                self.conn.commit()
+        if tname == 'sale_table':
+            try:
+                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?,?)",form_data)
+            finally:
+                self.conn.commit()
+        if tname == 'sale_reg':
+            try:
+                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?)",form_data)
+            finally:
+                self.conn.commit()
+    
     def __del__(self):
         try:
             if self.conn and self.conn.is_connected():

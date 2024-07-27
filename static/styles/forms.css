@@ -1,0 +1,133 @@
+body {
+background-color: #BBD5ED;
+color: #38023B;
+font-family: "Inter", sans-serif;
+font-family: "Source Sans Pro", sans-serif;
+overflow: hidden;
+}
+
+#full{
+  display: flex;
+}
+
+#head{
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    padding: 50px;
+  }
+  
+.required{
+    color: #d62828;
+  }
+  
+#err {
+    color: #d62828;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+  }
+
+#text{
+    width: 50%;
+    position: relative;
+  }
+  
+  form {
+    width: 500px;
+    padding: 150px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    max-height: 50%;
+  }
+  
+  label {
+    display: block;
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  input[type="text"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  textarea {
+    height: 100px;
+  }
+  
+  #btn{
+    width: 100%;
+  }
+
+  #submit {
+    background-color: #003049;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    float: left;
+    text-align: center;
+    position: absolute;
+    margin-top: 50px;
+  }
+
+  #button {
+    background-color: #003049;
+    color: white;
+    padding: 10px 20px;
+    margin-top : 50px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+    float: right;
+  }
+
+  #table{
+    /* border: 2px #d62828 ;  */
+    padding-right: 10%;
+    padding: 5px;
+    height: 500px;
+    overflow-y: auto;
+    width: 35%;
+    margin-top: 150px;
+  }
+
+  #caption{
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    color: #003049;
+    margin-bottom: 20px;
+  }
+
+  thead {
+    position: sticky;
+    top: 0;
+    background-color: #fcbf49;
+  }
+
+  table{
+    border: 2px #003049;
+    border-collapse: collapse;
+    text-align: left;
+    float: right;
+  }
+
+  tr,td{
+    height: 35px;
+    width: 25%;
+    padding: 10px;
+  }

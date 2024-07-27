@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/forms.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Designation</title>
+</head>
+<body>
+    <div id = "head">
+        <h1> ITEM MASTER </h1>
+    </div>
+    <div>
+        <form action='/item-master' method="POST" enctype="multipart/form-data" id="form">
+            <label for="product_name">Product Name<span class="required">*</span></label><br>
+            <input type="text" id="product_name" name="product_name" required><br>
+
+            <label for="HSM">HSM Code<span class="required">*</span></label><br>
+            <input type="text" id="HSM" name="HSM" required><br>
+    
+            <label for="GST">GST Percentage<span class="required">*</span></label><br>
+            <input type="number" id="GST" name="GST" required><br>
+            
+            <div id="err">
+                {% if error%}
+                    <p><strong>{{error}}</strong></p>
+                {% endif%}
+            </div>
+
+            <div id="btn">
+                <input type="submit" id="submit" value="SUBMIT">
+                <a href="{{url_for('item_master')}}"><button id="button" type="button" onclick="">DASHBOARD</button></a>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript" src= "{{ url_for('static',filename='js/update_dist.js') }}"></script>
+</body>
+
+</html>
