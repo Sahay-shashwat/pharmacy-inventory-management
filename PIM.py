@@ -123,20 +123,23 @@ class Database:
             self.curr.execute(query,(data,))
             data=self.curr.fetchone()[0]
             if data!=0:
-                return True
-            else:
                 return False
+            else:
+                return True
         except:
             print("ERROR FINDING DATA")
 
 
     def getID(self,tname):
-        query=f"SELECT MAX(ID) FROM {tname}"
-        self.curr.execute(query)
-        result = self.curr.fetchone()[0]
-        if (result == None):
-            return 1
-        return ((result)+1)
+        try:
+            query=f"SELECT MAX(ID) FROM {tname}"
+            self.curr.execute(query)
+            result = self.curr.fetchone()[0]
+            if (result == None):
+                return 1
+            return ((result)+1)
+        except:
+            print("ERROR FINDING DATA")
 
     def getReferenceID(self,tname,col,data):
         try:
@@ -151,7 +154,9 @@ class Database:
     def insert_record(self,tname,form_data):
         if tname == 'item_master':
             try:
-                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?)",form_data)
+                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?,?)",form_data)
+            except:
+                print("ERROR INSERTING DATA")
             finally:
                 self.conn.commit()
         if tname == 'vendor_master':
@@ -159,7 +164,7 @@ class Database:
                 self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?)",form_data)
             finally:
                 self.conn.commit()
-        if tname == 'purchase_table':
+        if tname == 'purchase_details':
             try:
                 self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?,?)",form_data)
             finally:

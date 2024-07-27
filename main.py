@@ -39,7 +39,7 @@ def item_master():
             error=None
             name=request.form['product_name']
             HSM=request.form['HSM']
-            GST=request.form['GST']
+            GST=int(request.form['GST'])
             rate=request.form['Rate']
             id=db.getID('item_master')
             flag=db.check_data_exists(name,'item_master','Product_name')
@@ -49,7 +49,7 @@ def item_master():
                 return redirect('dashboard')
             else:
                 error='PRODUCT ALREADY EXISTS'
-                return render_template('item_master',error=error)
+                return render_template('item_master.html',error=error)
         except:
             db.roll()
 
@@ -64,7 +64,7 @@ def customer_master():
             error= None
             custname=request.form['customer_name']
             add=request.form['address']
-            mobile=request.form['mobile']
+            mobile=int(request.form['mobile'])
             gst=request.form['GSTIN']
             id=db.getID('customer_master')
             flag=db.check_data_exists(custname,"customer_master",'Customer_Name')
@@ -74,7 +74,7 @@ def customer_master():
                 return redirect('dashboard')
             else:
                 error='CUSTOMER ALREADY EXISTS'
-                return render_template('customer_master',error=error)
+                return render_template('customer_master.html',error=error)
         except:
             db.roll()
 
@@ -89,7 +89,7 @@ def vendor_master():
             error= None
             vname=request.form['vendor_name']
             add=request.form['address']
-            mobile=request.form['mobile']
+            mobile=int(request.form['mobile'])
             gst=request.form['GSTIN']
             drug=request.form['drug_lisc']
             id=db.getID('vendor_master')
@@ -100,7 +100,7 @@ def vendor_master():
                 return redirect('dashboard')
             else:
                 error='VENDOR ALREADY EXISTS'
-                return render_template('vendor_master',error=error)
+                return render_template('vendor_master.html',error=error)
         except:
             db.roll()
 
