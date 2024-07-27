@@ -26,6 +26,7 @@ class Database:
                               ID INT PRIMARY KEY,
                               Product_name VARCHAR(255),
                               HSM VARCHAR(255),
+                              RATE FLOAT,
                               GST FLOAT,
                               CGST FLOAT,
                               SGST FLOAT
@@ -42,28 +43,29 @@ class Database:
                               );
             ''')
             self.curr.execute('''
-                CREATE TABLE IF NOT EXISTS purchase_table(
+                CREATE TABLE IF NOT EXISTS purchase_detail(
                               ID INT PRIMARY KEY,
                               PID INT REFERENCES item_master(ID),
-                              CP FLOAT,
-                              SP FLOAT,
-                              Manf_date Date,
-                              Exp_date Date,
-                              Purchase_date Date
+                              PRID INT REFERENCES purchase_reg(ID),
+                              RATE FLOAT,
+                              QUANTITY INT,
+                              AMOUNT FLOAT,
                               );
             ''')
             self.curr.execute('''
                 CREATE TABLE IF NOT EXISTS purchase_reg(
                               ID INT PRIMARY KEY,
-                              Bill INT REFERENCES purchase_table(ID),
+                              Billno INT,
                               amount FLOAT,
-                              VID INT REFERENCES vendor_master(ID)
+                              VID INT REFERENCES vendor_master(ID),
+                              Vendor_chalan VARCHAR(255),
+                              Bill_date date
                               );
             ''')
             self.curr.execute('''
                 CREATE TABLE IF NOT EXISTS customer_master(
                               ID INT PRIMARY KEY,
-                              Vendor_Name VARCHAR(255),
+                              Customer_Name VARCHAR(255),
                               Address VARCHAR(255),
                               Mobile INT,
                               GSTIN VARCHAR(255)
