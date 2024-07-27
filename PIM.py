@@ -42,7 +42,55 @@ class Database:
                         GSTIN varchar(255),
                         drug_lisc varchar(255)
                         );
+            ''')
+            self.curr.execute ('''
+                CREATE TABLE IF NOT EXISTS purchase_table(
+                        Bill_No INT PRIMARY KEY,
+                        PID INT REFERENCES item_master(ID),
+                        CP FLOAT,
+                        SP FLOAT,
+                        Manf_Date Date,
+                        Exp_Date Date,
+                        Purchase_Date Date
+                        );
+            ''')
+            self.curr.execute ('''
+                CREATE TABLE IF NOT EXISTS purchase_register(
+                        ID INT PRIMARY KEY,
+                        Bill_No INT REFERENCES purchase_table(Bill_No),
+                        Amount FLOAT,
+                        VID INT REFERENCES vendor_master(ID)
+                        );
+            ''')
+            self.curr.execute ('''
+                CREATE TABLE IF NOT EXISTS customer_master(
+                        ID INT PRIMARY KEY,
+                        Name varchar(255) NOT NULL,
+                        Address VARCHAR(255), 
+                        mobile VARCHAR(255),
+                        GSTIN varchar(255),
+                        );
+            ''')
+            self.curr.execute ('''
+                CREATE TABLE IF NOT EXISTS sale_table(
+                        Bill_No INT PRIMARY KEY,
+                        PID INT REFERENCES item_master(ID),
+                        MRP FLOAT,
+                        DISCOUNT FLOAT,
+                        SP FLOAT,
+                        GST FLOAT,
+                        Sale_Date Date
+                        );
             ''') 
+            self.curr.execure('''
+                CREATE TABLE IF NOT EXISTS Sale_register(
+                              ID INT PRIMARY KEY,
+                              Bill_No INT REFERENCES sale_master(Bill_No),
+                              Amount FLOAT,
+                              CID INT REFERENCES customer_master(ID)    
+                              );
+
+            ''')
             self.conn.commit()
         except:
             raise Exception("An error occured with DB initialization!")
