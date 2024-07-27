@@ -104,6 +104,9 @@ def vendor_master():
         except:
             db.roll()
 
+@app.route("/purchase_reg")
+def customer():
+    return render_template("purchase_reg.html") 
 
 if __name__ == '__main__':
     app.run(debug=True)
