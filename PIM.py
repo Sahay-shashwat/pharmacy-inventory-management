@@ -50,6 +50,7 @@ class Database:
                               RATE FLOAT,
                               QUANTITY INT,
                               AMOUNT FLOAT,
+                              MRP FLOAT,
                               Exp_Date DATE,
                               Manf_Date DATE
                               );
@@ -170,6 +171,7 @@ class Database:
         try:
             query=f"UPDATE {tname} SET {colname} = ? WHERE ID = ?"
             self.curr.execute(query,(amount,data))
+            self.conn.commit()
         except:
             print("ERROR UPDATING")
 
@@ -187,7 +189,7 @@ class Database:
                 self.conn.commit()
         if tname == 'purchase_detail':
             try:
-                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?,?,?)",form_data)
+                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?,?,?,?)",form_data)
             finally:
                 self.conn.commit()
         if tname == 'purchase_reg':

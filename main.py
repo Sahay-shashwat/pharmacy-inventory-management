@@ -121,6 +121,7 @@ def purchase_register():
     Bill_date = data.getlist('Bill_date')[0]
     Exp_date = data.getlist('Exp_date')[0]
     Manf_date = data.getlist('Manf_date')[0]
+    MRP=data.getlist("MRP")[0]
     prid=db.getID("purchase_reg")
     Billno=db.getBill("purchase_reg")
     vid=db.getReferenceID("vendor_master","Vendor_Name",vendor_name)
@@ -135,11 +136,12 @@ def purchase_register():
         rate=float(rates[i])
         quantity=int(quantities[i])
         amount=rate*quantity
+        mrp=float(MRP)
         sum+=amount
-        details=(id,pid,prid,rate,quantity,amount,Exp_date,Manf_date)
+        details=(id,pid,prid,rate,quantity,amount,mrp,Exp_date,Manf_date)
         db.insert_record("purchase_detail",details)
     
-    db.updatedetails("purchase_detail","AMOUNT",sum,prid)
+    db.updatedetails("purchase_reg","amount",sum,prid)
     return redirect('dashboard')
 
 @app.route("/inventory-repo")
