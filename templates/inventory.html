@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/report.css') }}">
+    <title>Inventory-Report</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div id="full">
+        <div id="text">
+            <div id="head">
+                <h1>INVENTORY REPORT</h1>
+            </div>
+            <div>
+                <label for="inventory"></label><br>
+                <input type="search" id="inventory" name="inventory" placeholder="Search Medicine" required>
+                
+                <div id="btn">
+                    <a href="{{url_for('dashboard')}}"><button id="button" type="button" onclick=""> DASHBOARD </button></a>
+                </div>
+            </div>
+        </div>
+        <div id="table">
+            <table border="1px">
+                <caption id="caption">ITEM</caption>
+                <thead>
+                    <td><strong>Medicine Name</strong></td>
+                    <td><strong>Manf Date</strong></td>
+                    <td><strong>Expiry Date</strong></td>
+                    <td><strong>MRP</strong></td>
+                    <td><strong>Quantity</strong></td>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src= "{{ url_for('static',filename='js/inventory.js') }}"></script>
+</body>
+</html>
