@@ -116,16 +116,18 @@ def purchase_register():
     products = data.getlist('product[]')
     rates = data.getlist('rate[]')
     quantities = data.getlist('quantity[]')
-    vendor_name = data.getlist('vendor_name')
-    challan = data.getlist('challan')
-    Bill_date = data.getlist('Bill_date')
-
+    vendor_name = ((data.getlist('vendor_name')[0]).replace("('","")).replace("',)","")
+    challan = data.getlist('challan')[0]
+    Bill_date = data.getlist('Bill_date')[0]
     id=db.getID("purchase_reg")
     Billno=db.getBill("purchase_reg")
     vid=db.getReferenceID("vendor_master","Vendor_Name",vendor_name)
+    print(vid)
+    print(type(vendor_name))
     formdata=(id,Billno,0,vid,challan,Bill_date)
-    db.insert_record("purchase_reg",formdata)
-    return redirect('dashboard')
+    print(Bill_date)
+    # db.insert_record("purchase_reg",formdata)
+    # return redirect('dashboard')
 
     # sum=0
     # for i in range(len(products)):
@@ -135,7 +137,7 @@ def purchase_register():
     #     q=int(quantities[i])
     #     amount=r*q
     
-    #return jsonify({"message": "Data received successfully"})
+    return jsonify({"message": "Data received successfully"})
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -49,7 +49,7 @@ class Database:
                               PRID INT REFERENCES purchase_reg(ID),
                               RATE FLOAT,
                               QUANTITY INT,
-                              AMOUNT FLOAT/
+                              AMOUNT FLOAT,
                               Exp_Date DATE,
                               Manf_Date DATE
                               );
@@ -150,10 +150,10 @@ class Database:
 
     def getReferenceID(self,tname,col,data):
         try:
-            query=f'''SELECT ID FROM {tname} WHERE {col}=?'''
+            query=f"SELECT MAX(ID) FROM {tname} WHERE {col} = ?"
             self.curr.execute(query,(data,))
-            ref_id = self.curr.fetchone()[0]
-            return ref_id
+            result = self.curr.fetchone()[0]
+            return result
         except:
             print("ERROR FINDING DATA")
 
@@ -162,7 +162,6 @@ class Database:
             query=f"SELECT {col} FROM {tname}"
             self.curr.execute(query)
             result = self.curr.fetchall()
-            print(result)
             return result
         except:
             print("ERROR FINDING DATA")
