@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/report.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/inventory.css') }}">
     <title>Inventory-Report</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -13,13 +13,12 @@
             <div id="head">
                 <h1>INVENTORY REPORT</h1>
             </div>
-            <div>
-                <label for="inventory"></label><br>
-                <input type="search" id="inventory" name="inventory" placeholder="Search Medicine" required>
-                
-                <div id="btn">
-                    <a href="{{url_for('dashboard')}}"><button id="button" type="button" onclick=""> DASHBOARD </button></a>
-                </div>
+            <div id="search">
+                    <label for="inventory"></label><br>
+                    <input type="search" id="inventory" name="inventory" placeholder="Search Medicine" required>
+                    <div id="btn">
+                        <a href="{{url_for('dashboard')}}"><button id="button" type="button" onclick=""> DASHBOARD </button></a>
+                    </div>
             </div>
         </div>
         <div id="table">

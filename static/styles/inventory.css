@@ -34,7 +34,7 @@ body {
       position: relative;
     }
     
-    form {
+    #search {
       width: 500px;
       padding: 150px;
       margin: 0 auto;
