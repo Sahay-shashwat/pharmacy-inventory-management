@@ -166,7 +166,14 @@ class Database:
         except:
             print("ERROR FINDING DATA")
 
-    
+    def updatedetails(self,tname,colname,amount,data):
+        try:
+            query=f"UPDATE {tname} SET {colname} = ? WHERE ID = ?"
+            self.curr.execute(query,(amount,data))
+        except:
+            print("ERROR UPDATING")
+
+
     def insert_record(self,tname,form_data):
         if tname == 'item_master':
             try:

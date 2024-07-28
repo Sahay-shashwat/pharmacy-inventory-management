@@ -119,22 +119,28 @@ def purchase_register():
     vendor_name = ((data.getlist('vendor_name')[0]).replace("('","")).replace("',)","")
     challan = data.getlist('challan')[0]
     Bill_date = data.getlist('Bill_date')[0]
-    id=db.getID("purchase_reg")
+    Exp_date = data.getlist('Exp_date')[0]
+    Manf_date = data.getlist('Manf_date')[0]
+    prid=db.getID("purchase_reg")
     Billno=db.getBill("purchase_reg")
     vid=db.getReferenceID("vendor_master","Vendor_Name",vendor_name)
-    formdata=(id,Billno,0,vid,challan,Bill_date)
-    # db.insert_record("purchase_reg",formdata)
-    # return redirect('dashboard')
+    formdata=(prid,Billno,0,vid,challan,Bill_date)
+    db.insert_record("purchase_reg",formdata)
 
-    # sum=0
-    # for i in range(len(products)):
-    #     p=products[i]
-
-    #     r=float(rates[i])
-    #     q=int(quantities[i])
-    #     amount=r*q
+    sum=0
+    for i in range(len(products)):
+        id=db.getID("purchase_detail")
+        product=products[i].replace("('","").replace("',)","")
+        pid=db.getReferenceID("item_master","Product_name",product)
+        rate=float(rates[i])
+        quantity=int(quantities[i])
+        amount=r*q
+        sum+=amount
+        details=(id,pid,prid,rate,quantity,amount,Exp_date,Manf_date)
+        db.insert_record("purchase_detail",details)
     
-    return jsonify({"message": "Data received successfully"})
+    db.updatedetails("purchase_detail","AMOUNT",sum,prid)
+    return redirect('dashboard')
 
 @app.route("/inventory-repo")
 def inventory():
