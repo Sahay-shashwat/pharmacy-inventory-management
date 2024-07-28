@@ -8,20 +8,54 @@ document.addEventListener('DOMContentLoaded', function() {
     function addField() {
       const newField = document.createElement('div');
       newField.classList.add('field-group');
-      newField.innerHTML = `
-        <select name="product[]" required>
-            <option value=""selected disabled hidden>SELECT MEDICINE</option>
-                {% block desg %}
-                    {% for item in items %}
-                        <option value="{{ item }}">{{ item[0] }}</option>
-                    {% endfor %}
-                {% endblock %}
-        </select>
-        <input type="text" name="rate[]" placeholder="Enter Rate*" required>
-        <input type="number" name="quantity[]" placeholder="Enter Quantity*" required>
-        <button class="remove-field" id="remove">Remove</button>
+          newField.innerHTML = `
+            <div class="field">
+                <label for="medicine">Medicine<span class="required">*</span></label><br>
+                <select name="product[]" class="medicine-select">
+                    <option value=""selected disabled hidden>SELECT MEDICINE</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="Rate">Rate<span class="required">*</span></label><br>
+                <input type="text" name="rate[]" placeholder="Enter Rate *" required>
+            </div>
+
+            <div class="field">
+                <label for="Quantity">Quantity<span class="required">*</span></label><br>
+                <input type="number" name="quantity[]" placeholder="Enter Quantity *" required>
+            </div>
+
+            <div class="field">
+                <label for="Manf_Date">Manf Date<span class="required">*</span></label><br>
+                <input type="date" name="Manf_Date[]" id="manf-date" required>
+            </div>
+
+            <div class="field">
+                <label for="Exp_Date">Expiry Date<span class="required">*</span></label><br>
+                <input type="date" name="Exp_Date[]" id="exp-date" placeholder="Enter Expiry Date *" required>
+            </div> 
+            
+                <label for="remove"></label>
+                <button class="remove-field" id="remove">Remove</button>
       `;
       fieldsContainer.appendChild(newField);
+
+      $.ajax({
+        type: 'GET',
+        url: '/get_items',
+        dataType: 'json',
+      }).then(function(data) {
+            var items=data;
+            console.log(data)
+            const selectElement = newField.querySelector('.medicine-select');
+            $(selectElement).empty();
+            $(selectElement).append(`<option value="" selected disabled hidden>SELECT MEDICINE</option>`);
+            items.forEach(function(option) {
+              console.log(option);
+                $(selectElement).append(`<option value="${option}">${option}</option>`);
+            });
+        });
     }
 
     // Function to remove field
@@ -59,6 +93,9 @@ document.addEventListener('DOMContentLoaded', function() {
           method: 'POST',
           body: combinedFormData
         });
+        if(!response.ok){
+          throw new Error('HTTP error! status: ${response.status}')
+        }
         const data = await response.json();
         console.log(data);
       } catch (error) {

@@ -12,7 +12,7 @@ body {
     }
     
     #bill {
-      width: 30%;
+      width: 25%;
       text-align: center;
     }
 
@@ -25,7 +25,7 @@ body {
     }
 
     #item {
-      width: 60%;
+      width: 65%;
       text-align: center;
     }
 
@@ -36,10 +36,23 @@ body {
     #dynamicForm .field-group {
       width: 100%;
       display: flex;
+      flex-direction: row;
       justify-content: space-between;
       gap: 20px;
     }
           
+    #dynamicForm .field-group .field {
+      display: flex;
+      flex-direction: column;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    #dynamicForm .field-group label {
+      margin-top: 0 !important;
+      margin-bottom: 5px;
+    }
+
     .required{
         color: #d62828;
       }
@@ -72,7 +85,7 @@ body {
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        margin-top: 10px;
+        margin-top: 50px;
         text-align: center;
       }
 

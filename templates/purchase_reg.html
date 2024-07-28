@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Purchase</title>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/reg.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
 
@@ -40,17 +41,41 @@
                 <div id="fieldsContainer">
                     <!-- Initial field -->
                     <div class="field-group">
-                        <select name="product[]" required>
-                            <option value=""selected disabled hidden>SELECT MEDICINE</option>
-                                {% block medicine %}
-                                    {% for item in items %}
-                                        <option value="{{ item }}">{{ item[0] }}</option>
-                                    {% endfor %}
-                                {% endblock %}
-                        </select>
-                        <input type="text" name="rate[]" placeholder="Enter Rate *" required>
-                        <input type="number" name="quantity[]" placeholder="Enter Quantity *" required>
-                        <button class="remove-field" id="remove">Remove</button>
+
+                        <div class="field">
+                            <label for="medicine">Medicine<span class="required">*</span></label><br>
+                            <select name="product[]" id="medicine">
+                                <option value=""selected disabled hidden>SELECT MEDICINE</option>
+                                    {% block medicine %}
+                                        {% for item in items %}
+                                            <option value="{{ item }}">{{ item[0] }}</option>
+                                        {% endfor %}
+                                    {% endblock %}
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label for="Rate">Rate<span class="required">*</span></label><br>
+                            <input type="text" name="rate[]" id="Rate" placeholder="Enter Rate *" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="Quantity">Quantity<span class="required">*</span></label><br>
+                            <input type="number" name="quantity[]" id="Quantity" placeholder="Enter Quantity *" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="Manf_Date">Manf Date<span class="required">*</span></label><br>
+                            <input type="date" name="Manf_Date[]" id="Manf_Date" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="Exp_Date">Expiry Date<span class="required">*</span></label><br>
+                            <input type="date" name="Exp_Date[]" id="Exp_Date" placeholder="Enter Expiry Date *" required>
+                        </div>
+                        
+                            <label for="remove"></label>
+                            <button class="remove-field" id="remove">Remove</button>
                     </div>
                 </div>
                 <!-- Button to add new fields -->

@@ -1,4 +1,4 @@
-from flask import Flask,render_template,redirect,request,jsonify
+from flask import Flask,render_template,redirect,request,jsonify,json
 app = Flask(__name__)
 
 from PIM import Database
@@ -122,10 +122,7 @@ def purchase_register():
     id=db.getID("purchase_reg")
     Billno=db.getBill("purchase_reg")
     vid=db.getReferenceID("vendor_master","Vendor_Name",vendor_name)
-    print(vid)
-    print(type(vendor_name))
     formdata=(id,Billno,0,vid,challan,Bill_date)
-    print(Bill_date)
     # db.insert_record("purchase_reg",formdata)
     # return redirect('dashboard')
 
@@ -138,6 +135,15 @@ def purchase_register():
     #     amount=r*q
     
     return jsonify({"message": "Data received successfully"})
+
+@app.route('/get_items', methods=['GET'])
+def get_items():
+    items=db.getColumn("Product_name","item_master")
+    product_options=[]
+    for i, name in enumerate(items):
+        prakhand_option ={"value": str(i), "text": name}
+        product_options.append(prakhand_option)
+    return jsonify(items)
 
 if __name__ == '__main__':
     app.run(debug=True)
