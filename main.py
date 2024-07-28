@@ -136,6 +136,10 @@ def purchase_register():
     
     return jsonify({"message": "Data received successfully"})
 
+@app.route("/inventory-repo")
+def vendor():
+    return render_template("inventory.html") 
+
 @app.route('/get_items', methods=['GET'])
 def get_items():
     items=db.getColumn("Product_name","item_master")
