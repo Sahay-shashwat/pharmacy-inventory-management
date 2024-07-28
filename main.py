@@ -68,7 +68,7 @@ def customer_master():
             gst=request.form['GSTIN']
             id=db.getID('customer_master')
             flag=db.check_data_exists(custname,"customer_master",'Customer_Name')
-            if(flag):
+            if( not flag):
                 data=(id,custname,add,mobile,gst)
                 db.insert_record("customer_master",data)
                 return redirect('dashboard')
@@ -94,7 +94,7 @@ def vendor_master():
             drug=request.form['drug_lisc']
             id=db.getID('vendor_master')
             flag=db.check_data_exists(vname,"vendor_master",'Vendor_Name')
-            if(flag):
+            if(not flag):
                 data=(id,vname,add,mobile,gst,drug)
                 db.insert_record("vendor_master",data)
                 return redirect('dashboard')
@@ -120,10 +120,22 @@ def purchase_register():
     challan = data.getlist('challan')
     Bill_date = data.getlist('Bill_date')
 
-    print(products)
+    id=db.getID("purchase_reg")
+    Billno=db.getBill("purchase_reg")
+    vid=db.getReferenceID("vendor_master","Vendor_Name",vendor_name)
+    formdata=(id,Billno,0,vid,challan,Bill_date)
+    db.insert_record("purchase_reg",formdata)
+    return redirect('dashboard')
 
+    # sum=0
+    # for i in range(len(products)):
+    #     p=products[i]
 
-    return jsonify({"message": "Data received successfully"})
+    #     r=float(rates[i])
+    #     q=int(quantities[i])
+    #     amount=r*q
+    
+    #return jsonify({"message": "Data received successfully"})
 
 if __name__ == '__main__':
     app.run(debug=True)

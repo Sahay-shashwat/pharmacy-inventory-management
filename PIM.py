@@ -49,7 +49,9 @@ class Database:
                               PRID INT REFERENCES purchase_reg(ID),
                               RATE FLOAT,
                               QUANTITY INT,
-                              AMOUNT FLOAT
+                              AMOUNT FLOAT/
+                              Exp_Date DATE,
+                              Manf_Date DATE
                               );
             ''')
             self.curr.execute('''
@@ -137,6 +139,14 @@ class Database:
         if (result == None):
             return 1
         return ((result)+1)
+    
+    def getBill(self,tname):
+        query=f"SELECT MAX(Billno) FROM {tname}"
+        self.curr.execute(query)
+        result = self.curr.fetchone()[0]
+        if (result == None):
+            return 1
+        return ((result)+1)
 
     def getReferenceID(self,tname,col,data):
         try:
@@ -171,7 +181,7 @@ class Database:
                 self.conn.commit()
         if tname == 'purchase_detail':
             try:
-                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?)",form_data)
+                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?,?,?)",form_data)
             finally:
                 self.conn.commit()
         if tname == 'purchase_reg':
