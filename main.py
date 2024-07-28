@@ -43,7 +43,7 @@ def item_master():
             rate=request.form['Rate']
             id=db.getID('item_master')
             flag=db.check_data_exists(name,'item_master','Product_name')
-            if(flag):
+            if(not flag):
                 data=(id,name,HSM,rate,GST,GST/2,GST/2)
                 db.insert_record("item_master",data)
                 return redirect('dashboard')
@@ -106,7 +106,9 @@ def vendor_master():
 
 @app.route("/purchase_reg")
 def purchase_reg():
-    return render_template("purchase_reg.html") 
+    data=db.getColumn("Vendor_Name","vendor_master")
+    items=db.getColumn("Product_name","item_master")
+    return render_template("purchase_reg.html",data=data,items=items) 
 
 @app.route('/purchase_register', methods=['POST'])
 def purchase_register():

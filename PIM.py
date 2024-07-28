@@ -123,23 +123,20 @@ class Database:
             self.curr.execute(query,(data,))
             data=self.curr.fetchone()[0]
             if data!=0:
-                return False
-            else:
                 return True
+            else:
+                return False
         except:
             print("ERROR FINDING DATA")
 
 
     def getID(self,tname):
-        try:
-            query=f"SELECT MAX(ID) FROM {tname}"
-            self.curr.execute(query)
-            result = self.curr.fetchone()[0]
-            if (result == None):
-                return 1
-            return ((result)+1)
-        except:
-            print("ERROR FINDING DATA")
+        query=f"SELECT MAX(ID) FROM {tname}"
+        self.curr.execute(query)
+        result = self.curr.fetchone()[0]
+        if (result == None):
+            return 1
+        return ((result)+1)
 
     def getReferenceID(self,tname,col,data):
         try:
@@ -150,13 +147,21 @@ class Database:
         except:
             print("ERROR FINDING DATA")
 
+    def getColumn(self,col,tname):
+        try:
+            query=f"SELECT {col} FROM {tname}"
+            self.curr.execute(query)
+            result = self.curr.fetchall()
+            print(result)
+            return result
+        except:
+            print("ERROR FINDING DATA")
+
     
     def insert_record(self,tname,form_data):
         if tname == 'item_master':
             try:
                 self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?,?)",form_data)
-            except:
-                print("ERROR INSERTING DATA")
             finally:
                 self.conn.commit()
         if tname == 'vendor_master':
@@ -164,14 +169,14 @@ class Database:
                 self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?)",form_data)
             finally:
                 self.conn.commit()
-        if tname == 'purchase_details':
+        if tname == 'purchase_detail':
             try:
-                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?,?)",form_data)
+                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?)",form_data)
             finally:
                 self.conn.commit()
         if tname == 'purchase_reg':
             try:
-                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?)",form_data)
+                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?)",form_data)
             finally:
                 self.conn.commit()
         if tname == 'customer_master':
