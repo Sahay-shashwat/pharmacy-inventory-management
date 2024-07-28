@@ -134,7 +134,7 @@ def purchase_register():
         pid=db.getReferenceID("item_master","Product_name",product)
         rate=float(rates[i])
         quantity=int(quantities[i])
-        amount=r*q
+        amount=rate*quantity
         sum+=amount
         details=(id,pid,prid,rate,quantity,amount,Exp_date,Manf_date)
         db.insert_record("purchase_detail",details)
