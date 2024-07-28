@@ -141,9 +141,9 @@ def get_items():
     items=db.getColumn("Product_name","item_master")
     product_options=[]
     for i, name in enumerate(items):
-        prakhand_option ={"value": str(i), "text": name}
-        product_options.append(prakhand_option)
-    return jsonify(items)
+        product_option ={"value": str(i), "text": name}
+        product_options.append(product_option)
+    return jsonify(product_options)
 
 if __name__ == '__main__':
     app.run(debug=True)

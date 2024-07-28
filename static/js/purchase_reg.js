@@ -47,13 +47,11 @@ document.addEventListener('DOMContentLoaded', function() {
         dataType: 'json',
       }).then(function(data) {
             var items=data;
-            console.log(data)
             const selectElement = newField.querySelector('.medicine-select');
             $(selectElement).empty();
             $(selectElement).append(`<option value="" selected disabled hidden>SELECT MEDICINE</option>`);
             items.forEach(function(option) {
-              console.log(option);
-                $(selectElement).append(`<option value="${option}">${option}</option>`);
+                $(selectElement).append(`<option value="${option.text}">${option.text}</option>`);
             });
         });
     }
