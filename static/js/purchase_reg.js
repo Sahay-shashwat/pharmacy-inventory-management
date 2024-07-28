@@ -28,13 +28,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
             <div class="field">
                 <label for="Manf_Date">Manf Date<span class="required">*</span></label><br>
-                <input type="date" name="Manf_Date[]" id="manf-date" required>
+                <input type="date" name="Manf_Date" id="manf-date" required>
             </div>
 
             <div class="field">
                 <label for="Exp_Date">Expiry Date<span class="required">*</span></label><br>
-                <input type="date" name="Exp_Date[]" id="exp-date" placeholder="Enter Expiry Date *" required>
+                <input type="date" name="Exp_Date" id="exp-date" placeholder="Enter Expiry Date *" required>
             </div> 
+
+            <div class="field">
+                <label for="MRP">MRP<span class="required">*</span></label><br>
+                <input type="text" name="MRP" id="MRP" placeholder="Enter MRP *" required>
+            </div>
             
                 <label for="remove"></label>
                 <button class="remove-field" id="remove">Remove</button>
