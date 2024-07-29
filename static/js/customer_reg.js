@@ -33,11 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 <label for="Discount">Discount %</label><br>
                 <input type="number" name="Discount[]" id="Discount" placeholder="Enter Discount%">
             </div>
-
-            <div class="field">
-                <label for="Sale_Date">Sale Date<span class="required">*</span></label><br>
-                <input type="date" name="Sale_Date" id="Sale_Date[]" placeholder="Enter Sale_Date *" required>
-            </div>
             
                 <label for="remove"></label>
                 <button class="remove-field" id="remove">Remove</button>
@@ -108,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       try {
-        const response = await fetch('/purchase_register', {
+        const response = await fetch('/customer_register', {
           method: 'POST',
           body: combinedFormData
         });
