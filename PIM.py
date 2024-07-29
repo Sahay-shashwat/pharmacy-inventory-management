@@ -162,18 +162,18 @@ class Database:
 
     def getExisitingProduct(self,id):
         try:
-            query=f"SELECT PID FROM purchase_detail WHERE PID = ?"
+            query=f"SELECT DISTINCT PID FROM purchase_detail WHERE PID = ?"
             items=[]
             for pid in id:
                 self.curr.execute(query,(pid,))
-                result = self.curr.fetchone()
+                result = self.curr.fetchone()[0]
                 if result != None:
                     items.append(result[0])
             query=f"SELECT Product_name FROM item_master WHERE ID=?"
             product=[]
             for id in items:
                 self.curr.execute(query,(id,))
-                result = self.curr.fetchone()
+                result = self.curr.fetchone()[0]
                 if result != None:
                     product.append(result[0])
             return product

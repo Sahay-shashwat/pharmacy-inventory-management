@@ -153,8 +153,7 @@ def inventory():
 
 @app.route('/get_items', methods=['GET'])
 def get_items():
-    id=db.getColumn("ID","item_master")
-    items=db.getExisitingProduct(id)
+    items=db.getColumn("Product_name","item_master")
     product_options=[]
     for i, name in enumerate(items):
         product_option ={"value": str(i), "text": name}
