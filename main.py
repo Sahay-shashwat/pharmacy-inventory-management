@@ -187,6 +187,11 @@ def inventory_repo():
     except Exception as e:
         print(f"ERROR: {e}")
         return jsonify({"error":"Failed to retrieve inventory data"},500)
+    
+@app.route("/customer_reg")
+def customer_reg():
+    items=db.getExistingProductName()
+    return render_template("customer_reg.html",items=items) 
 
 
 if __name__ == '__main__':

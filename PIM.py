@@ -189,7 +189,7 @@ class Database:
         except:
             print("ERROR FINDING DATA")
 
-    def getExistingProduct(self):
+    def getExistingProductName(self):
         try:
             query=f"SELECT Product_name FROM item_master WHERE item_master.ID = purchase_detail.PID"
             self.curr.execute(query)
