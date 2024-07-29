@@ -1,4 +1,4 @@
-$(document).ready(function() {
++$(document).ready(function() {
     $('#inventory').on('keyup', function() {
         var searchQuery = $(this).val();
         if (searchQuery.length > 0) {

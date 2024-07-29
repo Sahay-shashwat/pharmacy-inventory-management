@@ -26,7 +26,6 @@ class Database:
                               ID INT PRIMARY KEY,
                               Product_name VARCHAR(255),
                               HSM VARCHAR(255),
-                              RATE FLOAT,
                               GST FLOAT,
                               CGST FLOAT,
                               SGST FLOAT
@@ -75,10 +74,12 @@ class Database:
                               );
             ''')
             self.curr.execute('''
-                CREATE TABLE IF NOT EXISTS sale_table(
+                CREATE TABLE IF NOT EXISTS sale_details(
                               ID INT PRIMARY KEY,
                               PID INT REFERENCES item_master(ID),
+                              SID INT REFERENCES sale_reg(ID),
                               MRP FLOAT,
+                              Quantity INT,
                               Discount FLOAT,
                               SP FLOAT,
                               GST FLOAT,
@@ -88,9 +89,10 @@ class Database:
             self.curr.execute('''
                 CREATE TABLE IF NOT EXISTS sale_reg(
                               ID INT PRIMARY KEY,
-                              Bill INT REFERENCES sale_table(ID),
+                              Bill_No INT,
                               amount FLOAT,
-                              CID INT REFERENCES customer_master(ID)
+                              CID INT REFERENCES customer_master(ID),
+                              Bill_date date
                               );
             ''')
             self.conn.commit()
@@ -167,7 +169,7 @@ class Database:
         except:
             print("ERROR FINDING DATA")
 
-    def updatedetails(self,tname,colname,amount,data):
+    def  updatedetails(self,tname,colname,amount,data):
         try:
             query=f"UPDATE {tname} SET {colname} = ? WHERE ID = ?"
             self.curr.execute(query,(amount,data))
@@ -175,11 +177,47 @@ class Database:
         except:
             print("ERROR UPDATING")
 
+    def getName(self,tname,colname,data):
+        try:
+            query=f"SELECT {colname} FROM {tname} WHERE ID=?"
+            items=[]
+            for i in range(len(data)):
+                self.curr.execute(query,(data[i],))
+                result = self.curr.fetchone()[0]
+                items.append(result)
+            return items
+        except:
+            print("ERROR FINDING DATA")
+
+    def getdetails(self,id,tname):
+        try:
+            query=f"SELECT PID,Manf_Date,Exp_Date,MRP,QUANTITY FROM {tname} WHERE PID = ?"
+            result=[]
+            for PID in id:
+                self.curr.execute(query,(PID,))
+                item=self.curr.fetchall()
+                if len(item)!=0:
+                    result.append(item)
+            for i in range(len(result)):
+                result[i]=result[i][0] 
+            return result
+        except Exception as e:
+            print(e)
+            print("ERROR FINDING DATA")
+
+    def getIDlist(self,tname,colname,data):
+        try:
+            query=f"SELECT ID FROM {tname} WHERE {colname} LIKE '{data}%'"
+            self.curr.execute(query)
+            result = self.curr.fetchall()
+            return result
+        except:
+            print("ERROR FINDING DATA")
 
     def insert_record(self,tname,form_data):
         if tname == 'item_master':
             try:
-                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?,?)",form_data)
+                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?)",form_data)
             finally:
                 self.conn.commit()
         if tname == 'vendor_master':
@@ -202,14 +240,14 @@ class Database:
                 self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?)",form_data)
             finally:
                 self.conn.commit()
-        if tname == 'sale_table':
+        if tname == 'sale_details':
             try:
-                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?,?)",form_data)
+                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?,?,?,?)",form_data)
             finally:
                 self.conn.commit()
         if tname == 'sale_reg':
             try:
-                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?)",form_data)
+                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?)",form_data)
             finally:
                 self.conn.commit()
     

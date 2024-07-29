@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
         type: 'GET',
         url: '/get_items',
         dataType: 'json',
+        timeout:5000
       }).then(function(data) {
             var items=data;
             const selectElement = newField.querySelector('.medicine-select');
