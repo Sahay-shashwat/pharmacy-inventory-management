@@ -48,11 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
         type: 'GET',
         url: '/get_items',
         dataType: 'json',
-<<<<<<< HEAD
-        timeout:5000,
-=======
         timeout:5000
->>>>>>> 9b91b5c3e6320355e178296ff85f62e10e17b6c6
       }).then(function(data) {
             var items=data;
             const selectElement = newField.querySelector('.medicine-select');

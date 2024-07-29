@@ -9,6 +9,7 @@ $(document).ready(function() {
                 success: function(data) {
                     $('#table-body').empty();
                     $.each(data, function(index, item) {
+                        console.log(item)
                         $('#table-body').append(`
                             <tr>
                                 <td>${item.medicine_name}</td>
