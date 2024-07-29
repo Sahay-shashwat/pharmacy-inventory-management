@@ -11,34 +11,32 @@ document.addEventListener('DOMContentLoaded', function() {
           newField.innerHTML = `
             <div class="field">
                 <label for="medicine">Medicine<span class="required">*</span></label><br>
-                <select name="product[]" class="medicine-select">
-                    <option value=""selected disabled hidden>SELECT MEDICINE</option>
-                </select>
+                <select name="product[]" class="medicine-select"></select>
             </div>
 
             <div class="field">
                 <label for="Rate">Rate<span class="required">*</span></label><br>
-                <input type="text" name="rate[]" placeholder="Enter Rate *" required>
+                <input type="text" name="rate[]" id="Rate" placeholder="Enter Rate *" required>
             </div>
 
             <div class="field">
                 <label for="Quantity">Quantity<span class="required">*</span></label><br>
-                <input type="number" name="quantity[]" placeholder="Enter Quantity *" required>
+                <input type="number" name="quantity[]" id="Quantity" placeholder="Enter Quantity *" required>
             </div>
 
             <div class="field">
                 <label for="Manf_Date">Manf Date<span class="required">*</span></label><br>
-                <input type="date" name="Manf_Date" id="manf-date" required>
+                <input type="date" name="Manf_Date[]" id="Manf_Date" required>
             </div>
 
             <div class="field">
-                <label for="Exp_Date">Expiry Date<span class="required">*</span></label><br>
-                <input type="date" name="Exp_Date" id="exp-date" placeholder="Enter Expiry Date *" required>
-            </div> 
+                <label for="Exp_date">Expiry Date<span class="required">*</span></label><br>
+                <input type="date" id="Exp_date" name="Exp_date[]" required><br>
+            </div>
 
             <div class="field">
                 <label for="MRP">MRP<span class="required">*</span></label><br>
-                <input type="text" name="MRP" id="MRP" placeholder="Enter MRP *" required>
+                <input type="text" name="MRP[]" id="MRP" placeholder="Enter MRP *" required>
             </div>
             
                 <label for="remove"></label>
@@ -50,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
         type: 'GET',
         url: '/get_items',
         dataType: 'json',
+        timeout:5000,
       }).then(function(data) {
             var items=data;
             const selectElement = newField.querySelector('.medicine-select');
@@ -101,6 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         const data = await response.json();
         console.log(data);
+        window.location.href = '/dashboard';
       } catch (error) {
         console.error('Error:', error);
       }
