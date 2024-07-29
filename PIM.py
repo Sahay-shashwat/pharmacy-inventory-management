@@ -189,6 +189,15 @@ class Database:
         except:
             print("ERROR FINDING DATA")
 
+    def getExistingProduct(self):
+        try:
+            query=f"SELECT Product_name FROM item_master WHERE item_master.ID = purchase_detail.PID"
+            self.curr.execute(query)
+            result = self.curr.fetchall()
+            return result
+        except:
+            print("ERROR FINDING DATA")
+
     def  updatedetails(self,tname,colname,amount,data):
         try:
             query=f"UPDATE {tname} SET {colname} = ? WHERE ID = ?"
