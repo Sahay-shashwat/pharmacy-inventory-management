@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
           newField.innerHTML = `
             <div class="field">
                 <label for="medicine">Medicine<span class="required">*</span></label><br>
-                <select name="product[]" class="medicine-select" onchange="getMRP(this.value)"></select>
+                <select name="product[]" class="medicine-select" name="medicine"></select>
             </div>
             
             <div class="field">
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             <div class="field">
                 <label for="Exp_date">Exp Date<span class="required">*</span></label><br>
-                <select name="Exp_date[]" id="Exp_date"></select>
+                <select name="Exp_date[]" class="Exp_date-select"></select>
             </div>
             
             <div class="field">
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       $.ajax({
         type: 'GET',
-        url: '/get_items',
+        url: '/get_items_customer',
         dataType: 'json',
         timeout:5000,
       }).then(function(data) {
@@ -67,6 +67,27 @@ document.addEventListener('DOMContentLoaded', function() {
                                 $('.MRP-select').append(`<option value="${option.MRP}">${option.MRP}</option>`);
                             });
                         });
+              $('.MRP-select').on('change',function(){
+                const medicine = $('.medicine-select').val();
+                const MRP = $('.MRP-select').val();
+                    $.ajax({
+                      type: 'GET',
+                      url: `/getExpDate`,
+                      data:{
+                        medicine: medicine,
+                        MRP: MRP
+                      },
+                      timeout:5000,
+                      }).then(function(data) {
+                          var items=data;
+                          console.log(data);
+                          $('.Exp_date-select').empty();
+                          $('.Exp_date-select').append(`<option value="" selected disabled hidden>SELECT EXPIRY DATE</option>`);
+                          items.forEach(function(option) {
+                              $('.Exp_date-select').append(`<option value="${option.ExpDate}">${option.ExpDate}</option>`);
+                          });
+                      });
+                    });   
             });
 
         });
@@ -92,7 +113,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const formData1 = new FormData(form1);
       const formData2 = new FormData(form2);
       const combinedFormData = new FormData();
-      console.log(formData2)
 
       // Combine data from both forms
       for (const [key, value] of formData1) {
@@ -111,7 +131,6 @@ document.addEventListener('DOMContentLoaded', function() {
           throw new Error('HTTP error! status: ${response.status}')
         }
         const data = await response.json();
-        console.log(data);
         window.location.href = '/dashboard';
       } catch (error) {
         console.error('Error:', error);
@@ -119,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  function getMRP(Product_Name){
+  async function getMRP(Product_Name){
     $.ajax({
         type: 'GET',
         url: `/getMRP?product=${Product_Name}`,
@@ -131,6 +150,25 @@ document.addEventListener('DOMContentLoaded', function() {
             $('#MRP').append(`<option value="" selected disabled hidden>SELECT MRP</option>`);
             items.forEach(function(option) {
                 $('#MRP').append(`<option value="${option.MRP}">${option.MRP}</option>`);
+            });
+        });
+  }
+
+  async function getExpDate(MRP,medicine){
+    $.ajax({
+        type: 'GET',
+        url: `/getExpDate`,
+        data:{
+          medicine: medicine,
+          MRP: MRP
+        },
+        timeout:5000,
+        }).then(function(data) {
+            var items=data;
+            $('#Exp_date').empty();
+            $('#Exp_date').append(`<option value="" selected disabled hidden>SELECT EXPIRY DATE</option>`);
+            items.forEach(function(option) {
+                $('#Exp_date').append(`<option value="${option.ExpDate}">${option.ExpDate}</option>`);
             });
         });
   }

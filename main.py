@@ -178,11 +178,13 @@ def inventory_repo():
         for i in range(len(name)):
             data[i][0]=name[i]
 
+        for i in range(len(data)):
+            data[i][1]=data[i][1].strftime("%Y-%m-%d")
+            data[i][2]=data[i][2].strftime("%Y-%m-%d")
+        print(data)
         result=[]
         for i,item in enumerate(data):
             result.append({"index":str(i),"value":item})
-
-        print(result)
         return jsonify(result)
     except Exception as e:
         print(f"ERROR: {e}")
@@ -193,6 +195,35 @@ def customer_reg():
     items=db.getExistingProductName()
     return render_template("customer_reg.html",items=items) 
 
+@app.route('/get_items_customer', methods=['GET'])
+def get_items_consumer():
+    items=db.getExistingProductName()
+    product_options=[]
+    for i, name in enumerate(items):
+        product_option ={"value": str(i), "text": name}
+        product_options.append(product_option)
+    return jsonify(product_options)
+
+@app.route("/getMRP", methods=['GET'])
+def getMRP():
+    product_name=request.args.get('product').replace("('","").replace("',)","")
+    product_id=db.getReferenceID("item_master","Product_name",product_name)
+    mrp=db.getMRP("item_master","Product_id",product_id)
+    MRP=[]
+    for i,name in enumerate(mrp):
+        MRP.append({"value":str(i),"MRP":name})
+    return jsonify(MRP)
+
+@app.route("/getExpDate", methods=['GET'])
+def getExpDate():
+    medicine = request.args.get('medicine', None).replace("('","").replace("',)","")
+    MRP = request.args.get('MRP')
+    id=db.getReferenceID("item_master","Product_name",medicine)
+    items=db.getExpDate(id,MRP)
+    expDate=[]
+    for i,name in enumerate(items):
+        expDate.append({"value":str(i),"ExpDate":name})
+    return jsonify(expDate)
 
 if __name__ == '__main__':
     app.run(debug=True)

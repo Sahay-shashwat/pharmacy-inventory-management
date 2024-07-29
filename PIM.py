@@ -209,7 +209,7 @@ class Database:
 
     def getMRP(self,tname,col,data):
         try:
-            query=f"SELECT MRP FROM {tname} WHERE {col} = ?"
+            query=f"SELECT MRP FROM purchase_detail WHERE PID = ?"
             self.curr.execute(query,(data,))
             result = self.curr.fetchall()
             return result
@@ -254,6 +254,15 @@ class Database:
         except:
             print("ERROR FINDING DATA")
 
+    def getExpDate(self,id,MRP):
+        try:
+            query=f"SELECT Exp_Date FROM purchase_detail WHERE PID = ? AND MRP = ?"
+            self.curr.execute(query,(id,MRP))
+            result = self.curr.fetchall()
+            return [row[0].strftime("%Y-%m-%d") for row in result]
+        except:
+            print("ERROR FINDING DATA")
+    
     def insert_record(self,tname,form_data):
         if tname == 'item_master':
             try:

@@ -41,7 +41,7 @@
 
                         <div class="field">
                             <label for="medicine">Medicine<span class="required">*</span></label><br>
-                            <select name="product[]" id="medicine" onchange="getMRP(this.value)">
+                            <select name="product[]" id="medicine" name="medicine" onchange="getMRP(this.value)">
                                 <option value=""selected disabled hidden>SELECT MEDICINE</option>
                                     {% block medicine %}
                                         {% for item in items %}
@@ -53,7 +53,7 @@
                         
                         <div class="field">
                             <label for="MRP">MRP<span class="required">*</span></label><br>
-                            <select name="MRP[]" id="MRP"></select>
+                            <select name="MRP[]" id="MRP" onchange="getExpDate(this.value,$('#medicine').val())"></select>
                         </div>
 
                         <div class="field">
