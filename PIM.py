@@ -48,6 +48,7 @@ class Database:
                               PRID INT REFERENCES purchase_reg(ID),
                               RATE FLOAT,
                               QUANTITY INT,
+                              AVAILABLE INT,
                               AMOUNT FLOAT,
                               MRP FLOAT,
                               Exp_Date DATE,
@@ -59,7 +60,7 @@ class Database:
                               ID INT PRIMARY KEY,
                               Billno INT,
                               amount FLOAT,
-                              VID INT REFERENCES vendor_master(ID),
+                              VID INT REFERENCES vendor_master(ID) ON DELETE SET NULL,
                               Vendor_chalan VARCHAR(255),
                               Bill_date date
                               );
@@ -191,7 +192,7 @@ class Database:
 
     def getExistingProductName(self):
         try:
-            query=f"SELECT Product_name FROM item_master WHERE item_master.ID = purchase_detail.PID"
+            query="SELECT Product_name FROM item_master,purchase_detail WHERE item_master.ID = purchase_detail.PID AND purchase_detail.AVAILABLE != 0"
             self.curr.execute(query)
             result = self.curr.fetchall()
             return result
@@ -228,9 +229,9 @@ class Database:
         except:
             print("ERROR FINDING DATA")
 
-    def getdetails(self,id,tname):
+    def getDetails(self,id,tname):
         try:
-            query=f"SELECT PID,Manf_Date,Exp_Date,MRP,QUANTITY FROM {tname} WHERE PID = ?"
+            query=f"SELECT PID,Manf_Date,Exp_Date,MRP,QUANTITY FROM {tname} WHERE PID = ? AND AVAILABLE > 0"
             result=[]
             for PID in id:
                 self.curr.execute(query,(PID,))
@@ -266,7 +267,7 @@ class Database:
                 self.conn.commit()
         if tname == 'purchase_detail':
             try:
-                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?,?,?,?)",form_data)
+                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?,?,?,?,?)",form_data)
             finally:
                 self.conn.commit()
         if tname == 'purchase_reg':

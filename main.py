@@ -135,12 +135,13 @@ def purchase_register():
         pid=db.getReferenceID("item_master","Product_name",product)
         rate=float(rates[i])
         quantity=int(quantities[i])
+        available=quantity
         exp_date=Exp_date[i]
         manf_date=Manf_date[i]
         amount=rate*quantity
         mrp=float(MRP[i])
         sum+=amount
-        details=(id,pid,prid,rate,quantity,amount,mrp,exp_date,manf_date)
+        details=(id,pid,prid,rate,quantity,available,amount,mrp,exp_date,manf_date)
         db.insert_record("purchase_detail",details)
     
     db.updatedetails("purchase_reg","amount",sum,prid)
@@ -167,7 +168,7 @@ def inventory_repo():
         id=db.getIDlist("item_master","Product_name",search_query)
         for i in range(len(id)):
             id[i]=id[i][0]
-        data=db.getdetails(id,"purchase_detail")
+        data=db.getDetails(id,"purchase_detail")
         for i in range(len(data)):
             data[i]=list(data[i])
         medicine_id=[]
