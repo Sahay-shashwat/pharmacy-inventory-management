@@ -9,6 +9,13 @@ body {
   #full{
     display: flex;
   }
+
+  #table #table-body{
+    font-family: "Inter", sans-serif;
+    font-family: "Source Sans Pro", sans-serif;
+    text-align: center;
+
+  }
   
   #head{
       text-align: center;
@@ -98,30 +105,6 @@ body {
       float: right; */
     }
 
-    #edit {
-      background-color: #d62828;
-      padding: 10px 20px;
-      /* margin-top : 50px; */
-      border: none;
-      border-radius: 5px;
-      border-color: black;
-      color: white;
-      cursor: pointer;
-      text-align: center;
-    }
-
-    #generate-report{
-      margin-top: 50px;
-      width: fit-content;
-      height: fit-content;
-      cursor: pointer;
-      background-color: #003049;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-    }
-  
     #table{
       padding-right: 10%;
       padding: 5px;
@@ -141,7 +124,6 @@ body {
       margin-bottom: 20px;
     }
   
-  
     table{
       border: 2px #003049;
       border-collapse: collapse;
@@ -152,6 +134,7 @@ body {
     }
     
     thead {
+      text-align: center;
       position: sticky;
       top: 0;
       background-color: #fcbf49;
