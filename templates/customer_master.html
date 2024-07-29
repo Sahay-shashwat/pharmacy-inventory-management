@@ -23,7 +23,7 @@
             <input type="number" id="mobile" name="mobile" required><br>
 
             <label for="GSTIN">GSTIN<span class="required">*</span></label><br>
-            <input type="number" id="GSTIN" name="GSTIN" required><br>
+            <input type="text" id="GSTIN" name="GSTIN" required><br>
 
             <div id="err">
                 {% if error%}
@@ -33,11 +33,10 @@
 
             <div id="btn">
                 <input type="submit" id="submit" value="SUBMIT">
-                <a href="{{url_for('item_master')}}"><button id="button" type="button" onclick="">DASHBOARD</button></a>
+                <a href="{{url_for('dashboard')}}"><button id="button" type="button" onclick="">DASHBOARD</button></a>
             </div>
         </form>
     </div>
-    <script type="text/javascript" src= "{{ url_for('static',filename='js/update_dist.js') }}"></script>
 </body>
 
 </html>
