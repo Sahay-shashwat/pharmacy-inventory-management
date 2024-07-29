@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/customer.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+
+<body>
+    <div id="full">
+        <div id="bill">
+            <h1 id="head">BILL DETAILS</h1>  
+            
+            <form id="form">
+                <label for="customer_name">Customer Name<span class="required">*</span></label><br>
+                <select id="customer_name" name="customer_name" required>
+                    <option value=""selected disabled hidden>SELECT CUSTOMER</option>
+                        {% block customer %}
+                            {% for item in data %}
+                                <option value="{{ item }}">{{ item[0] }}</option>
+                            {% endfor %}
+                        {% endblock %}
+                </select><br>
+    
+                <label for="Bill_date">Bill Date<span class="required">*</span></label><br>
+                <input type="date" id="Bill_date" name="Bill_date" required><br>
+            </form>
+        </div>
+    
+        <div id="item">
+
+            <h2 id="head1">ITEM DETAILS</h2>
+        
+            <form id="dynamicForm">
+                <div id="fieldsContainer">
+                    <!-- Initial field -->
+                    <div class="field-group">
+
+                        <div class="field">
+                            <label for="medicine">Medicine<span class="required">*</span></label><br>
+                            <select name="product[]" id="medicine" onchange="getMRP(this.value)">
+                                <option value=""selected disabled hidden>SELECT MEDICINE</option>
+                                    {% block medicine %}
+                                        {% for item in items %}
+                                            <option value="{{ item }}">{{ item[0] }}</option>
+                                        {% endfor %}
+                                    {% endblock %}
+                            </select>
+                        </div>
+                        
+                        <div class="field">
+                            <label for="MRP">MRP<span class="required">*</span></label><br>
+                            <select name="MRP[]" id="MRP"></select>
+                        </div>
+
+                        <div class="field">
+                            <label for="Exp_date">Exp Date<span class="required">*</span></label><br>
+                            <select name="Exp_date[]" id="Exp_date"></select>
+                        </div>
+                        
+                        <div class="field">
+                            <label for="Quantity">Quantity<span class="required">*</span></label><br>
+                            <input type="number" name="quantity[]" id="Quantity" placeholder="Enter Quantity *" required>
+                        </div>
+                        
+                        <div class="field">
+                            <label for="Discount">Discount %</label><br>
+                            <input type="number" name="Discount[]" id="Discount" placeholder="Enter Discount%">
+                        </div>
+
+                        <div class="field">
+                            <label for="Sale_Date">Sale Date<span class="required">*</span></label><br>
+                            <input type="date" name="Sale_Date" id="Sale_Date[]" placeholder="Enter Sale_Date *" required>
+                        </div>
+                        
+                            <label for="remove"></label>
+                            <button class="remove-field" id="remove">Remove</button>
+                    </div>
+                </div>
+                <!-- Button to add new fields -->
+                <button id="addField">Add Field</button>
+                <button type="submit" id="submit">Submit</button>
+                <!-- Submit button -->
+            </form>
+        </div>
+
+    </div>
+    
+        <script type="text/javascript" src= "{{ url_for('static',filename='js/customer_reg.js') }}"></script>
+</body>
+</html>
