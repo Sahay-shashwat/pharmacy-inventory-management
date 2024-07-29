@@ -26,7 +26,6 @@ class Database:
                               ID INT PRIMARY KEY,
                               Product_name VARCHAR(255),
                               HSM VARCHAR(255),
-                              RATE FLOAT,
                               GST FLOAT,
                               CGST FLOAT,
                               SGST FLOAT
@@ -37,7 +36,7 @@ class Database:
                               ID INT PRIMARY KEY,
                               Vendor_Name VARCHAR(255),
                               Address VARCHAR(255),
-                              Mobile INT,
+                              Mobile BIGINT,
                               GSTIN VARCHAR(255),
                               Drug_lisc VARCHAR(255)
                               );
@@ -70,15 +69,17 @@ class Database:
                               ID INT PRIMARY KEY,
                               Customer_Name VARCHAR(255),
                               Address VARCHAR(255),
-                              Mobile INT,
+                              Mobile BIGINT,
                               GSTIN VARCHAR(255)
                               );
             ''')
             self.curr.execute('''
-                CREATE TABLE IF NOT EXISTS sale_table(
+                CREATE TABLE IF NOT EXISTS sale_details(
                               ID INT PRIMARY KEY,
                               PID INT REFERENCES item_master(ID),
+                              SID INT REFERENCES sale_reg(ID),
                               MRP FLOAT,
+                              Quantity INT,
                               Discount FLOAT,
                               SP FLOAT,
                               GST FLOAT,
@@ -88,9 +89,10 @@ class Database:
             self.curr.execute('''
                 CREATE TABLE IF NOT EXISTS sale_reg(
                               ID INT PRIMARY KEY,
-                              Bill INT REFERENCES sale_table(ID),
+                              Bill_No INT,
                               amount FLOAT,
-                              CID INT REFERENCES customer_master(ID)
+                              CID INT REFERENCES customer_master(ID),
+                              Bill_date date
                               );
             ''')
             self.conn.commit()
@@ -106,7 +108,6 @@ class Database:
         try:
             query="SELECT ID FROM user_details WHERE ID=?"
             self.curr.execute(query,(username,))
-            print(username)
             if (self.curr.fetchone()[0]!=None):
                 query2="SELECT Password FROM user_details WHERE ID=?"
                 self.curr.execute(query2,(username,))
@@ -122,8 +123,8 @@ class Database:
 
     def check_data_exists(self,data,tname,col):
         try:
-            query = f"SELECT COUNT(*) FROM {tname} WHERE {col}=?"
-            self.curr.execute(query,(data,))
+            query = f"SELECT COUNT(*) FROM {tname} WHERE {col}={data}"
+            self.curr.execute(query)
             data=self.curr.fetchone()[0]
             if data!=0:
                 return True
@@ -158,6 +159,27 @@ class Database:
         except:
             print("ERROR FINDING DATA")
 
+    def getExisitingProduct(self,id):
+        try:
+            query=f"SELECT PID FROM purchase_detail WHERE PID = ?"
+            items=[]
+            for pid in id:
+                self.curr.execute(query,(pid,))
+                result = self.curr.fetchone()
+                if result != None:
+                    items.append(result[0])
+            query=f"SELECT Product_name FROM item_master WHERE ID=?"
+            product=[]
+            for id in items:
+                self.curr.execute(query,(id,))
+                result = self.curr.fetchone()
+                if result != None:
+                    product.append(result[0])
+            return product
+        except:
+            print("ERROR FINDING DATA")
+    
+
     def getColumn(self,col,tname):
         try:
             query=f"SELECT {col} FROM {tname}"
@@ -175,11 +197,19 @@ class Database:
         except:
             print("ERROR UPDATING")
 
+    def getMRP(self,tname,col,data):
+        try:
+            query=f"SELECT MRP FROM {tname} WHERE {col} = ?"
+            self.curr.execute(query,(data,))
+            result = self.curr.fetchall()
+            return result
+        except:
+            print("ERROR FINDING DATA")
 
     def insert_record(self,tname,form_data):
         if tname == 'item_master':
             try:
-                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?,?)",form_data)
+                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?)",form_data)
             finally:
                 self.conn.commit()
         if tname == 'vendor_master':
@@ -195,21 +225,25 @@ class Database:
         if tname == 'purchase_reg':
             try:
                 self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?)",form_data)
+            except:
+                print("ERROR INSERTING DATA")
             finally:
                 self.conn.commit()
         if tname == 'customer_master':
             try:
                 self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?)",form_data)
+            except:
+                print("ERROR INSERTING DATA")
             finally:
                 self.conn.commit()
-        if tname == 'sale_table':
+        if tname == 'sale_details':
             try:
-                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?,?)",form_data)
+                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?,?,?,?)",form_data)
             finally:
                 self.conn.commit()
         if tname == 'sale_reg':
             try:
-                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?)",form_data)
+                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?)",form_data)
             finally:
                 self.conn.commit()
     
