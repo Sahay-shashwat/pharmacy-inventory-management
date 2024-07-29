@@ -61,8 +61,8 @@ def customer_master():
     if request.method=="POST":
         try:
             error= None
-            custname=request.form['customer_name'].replace("(,","").replace("',)","")
-            add=request.form['address'].replace("(,","").replace("',)","")
+            custname=request.form['customer_name'].replace("('","").replace("',)","")
+            add=request.form['address']
             mobile=int(request.form['mobile'])
             gst=request.form['GSTIN'].replace("(,","").replace("',)","")
             id=db.getID('customer_master')
@@ -86,7 +86,7 @@ def vendor_master():
     if request.method=="POST":
         try:
             error= None
-            vname=request.form['vendor_name'].replace("(,","").replace("',)","")
+            vname=request.form['vendor_name'].replace("('","").replace("',)","")
             add=request.form['address']
             mobile=int(request.form['mobile'])
             gst=request.form['GSTIN']
@@ -118,7 +118,7 @@ def purchase_register():
     vendor_name = ((data.getlist('vendor_name')[0]).replace("('","")).replace("',)","")
     challan = data.getlist('challan')[0]
     Bill_date = data.getlist('Bill_date')[0]
-    Exp_date = data.getlist('Exp_date[]')
+    Exp_date = data.getlist('Exp_Date[]')
     Manf_date = data.getlist('Manf_Date[]')
     MRP=data.getlist("MRP[]")
     prid=db.getID("purchase_reg")
@@ -134,8 +134,8 @@ def purchase_register():
         pid=db.getReferenceID("item_master","Product_name",product)
         rate=float(rates[i])
         quantity=int(quantities[i])
-        manf_date = Manf_date[i]
-        exp_date = Exp_date[i]
+        exp_date=Exp_date[i]
+        manf_date=Manf_date[i]
         amount=rate*quantity
         mrp=float(MRP[i])
         sum+=amount
@@ -157,23 +157,29 @@ def get_items():
     for i, name in enumerate(items):
         product_option ={"value": str(i), "text": name}
         product_options.append(product_option)
-    result=jsonify(product_options)
-    return result
+    return jsonify(product_options)
 
-@app.route("/customer_reg")
-def customer_reg():
-    items=db.getColumn("Product_name","item_master")
-    return render_template("customer_reg.html",items=items) 
+@app.route('/inventory',methods=['GET'])
+def inventory_repo():
+    search_query=request.args.get('inventory').replace("('","").replace("',)","")
+    id=db.getIDlist("item_master","Product_name",search_query)
+    for i in range(len(id)):
+        id[i]=id[i][0]
+    data=db.getdetails(id,"purchase_detail")
+    for i in range(len(data)):
+        data[i]=list(data[i])
+    medicine_id=[]
+    name=[]
+    for i in range(len(data)):
+        medicine_id.append(data[i][0])
+    name=db.getName("item_master","Product_name",medicine_id)
+    for i in range(len(name)):
+        data[i][0]=name[i]
 
-@app.route('/getMRP', methods=['GET'])
-def get_MRP():
-    product_name = request.args.get('product').replace("('","").replace("',)","")
-    id=db.getReferenceID("item_master","Product_name",product_name)
-    mrp=db.getMRP("purchase_detail","PID",id)
-    MRP=[]
-    for i, name in enumerate(mrp):
-        MRP.append({"value":str(i), "MRP":name})
-    return jsonify(MRP)
+    result=[]
+    for i,item in enumerate(data):
+        result.append({"index":str(i),"value":item})
+    return jsonify(result)
 
 if __name__ == '__main__':
     app.run(debug=True)

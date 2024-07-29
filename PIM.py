@@ -189,7 +189,7 @@ class Database:
         except:
             print("ERROR FINDING DATA")
 
-    def updatedetails(self,tname,colname,amount,data):
+    def  updatedetails(self,tname,colname,amount,data):
         try:
             query=f"UPDATE {tname} SET {colname} = ? WHERE ID = ?"
             self.curr.execute(query,(amount,data))
@@ -201,6 +201,44 @@ class Database:
         try:
             query=f"SELECT MRP FROM {tname} WHERE {col} = ?"
             self.curr.execute(query,(data,))
+            result = self.curr.fetchall()
+            return result
+        except:
+            print("ERROR FINDING DATA")
+
+            
+    def getName(self,tname,colname,data):
+        try:
+            query=f"SELECT {colname} FROM {tname} WHERE ID=?"
+            items=[]
+            for i in range(len(data)):
+                self.curr.execute(query,(data[i],))
+                result = self.curr.fetchone()[0]
+                items.append(result)
+            return items
+        except:
+            print("ERROR FINDING DATA")
+
+    def getdetails(self,id,tname):
+        try:
+            query=f"SELECT PID,Manf_Date,Exp_Date,MRP,QUANTITY FROM {tname} WHERE PID = ?"
+            result=[]
+            for PID in id:
+                self.curr.execute(query,(PID,))
+                item=self.curr.fetchall()
+                if len(item)!=0:
+                    result.append(item)
+            for i in range(len(result)):
+                result[i]=result[i][0] 
+            return result
+        except Exception as e:
+            print(e)
+            print("ERROR FINDING DATA")
+
+    def getIDlist(self,tname,colname,data):
+        try:
+            query=f"SELECT ID FROM {tname} WHERE {colname} LIKE '{data}%'"
+            self.curr.execute(query)
             result = self.curr.fetchall()
             return result
         except:
