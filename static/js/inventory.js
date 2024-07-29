@@ -1,4 +1,16 @@
 $(document).ready(function() {
+    function createTableRow(item) {
+        return `
+            <tr>
+                <td>${item.value[0]}</td>
+                <td>${item.value[1]}</td>
+                <td>${item.value[2]}</td>
+                <td>${item.value[3]}</td>
+                <td>${item.value[4]}</td>
+            </tr>
+        `;
+    }
+    
     $('#inventory').on('keyup', function() {
         var searchQuery = $(this).val();
         if (searchQuery.length > 0) {
@@ -9,17 +21,12 @@ $(document).ready(function() {
                 success: function(data) {
                     $('#table-body').empty();
                     $.each(data, function(index, item) {
-                        console.log(item)
-                        $('#table-body').append(`
-                            <tr>
-                                <td>${item.medicine_name}</td>
-                                <td>${item.manf_date}</td>
-                                <td>${item.expiry_date}</td>
-                                <td>${item.mrp}</td>
-                                <td>${item.quantity}</td>
-                            </tr>
-                        `);
+                        console.log(item.value[0])
+                        $('#table-body').append(createTableRow(item));
                     });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error occurred:', error);
                 }
             });
         }
