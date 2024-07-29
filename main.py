@@ -130,7 +130,6 @@ def purchase_register():
     sum=0
     for i in range(len(products)):
         id=db.getID("purchase_detail")
-        print(id)
         product=products[i].replace("('","").replace("',)","")
         pid=db.getReferenceID("item_master","Product_name",product)
         rate=float(rates[i])
@@ -145,6 +144,47 @@ def purchase_register():
         db.insert_record("purchase_detail",details)
     
     db.updatedetails("purchase_reg","amount",sum,prid)
+    return jsonify({'message': 'Form submission successful'}), 200
+
+
+@app.route("/customer_register", methods=['POST'])
+def customer_register():
+    data=request.form
+    custname=data.getlist('customer_name')[0].replace("('","").replace("',)","")
+    BillDate=data.getlist('Bill_date')[0]
+    custID=db.getReferenceID("customer_master","Customer_Name",custname)
+    products=data.getlist('product[]')
+    Exp_Date=data.getlist('Exp_date[]')
+    quantity=data.getlist('quantity[]')
+    discount=data.getlist('Discount[]')
+    mrp=data.getlist("MRP[]")
+
+    SRID=db.getID("sale_reg")
+    Billno=db.getBill("sale_reg")
+
+    formdata=(SRID,Billno,0,custID,BillDate)
+    db.insert_record("sale_reg",formdata)
+
+    sum=0
+    for i in range(len(products)):
+        id=db.getID("sale_details")
+        product=products[i].replace("('","").replace("',)","")
+        pid=db.getReferenceID("item_master","Product_name",product)
+        MRP=float(mrp[i])
+        Discount=float(discount[i])
+        SP = MRP - (Discount/100*MRP)
+        GSTper = db.getGST(pid)
+        GST=GSTper/100*SP
+        quantities=int(quantity[i])
+        Exp_date=Exp_Date[i]
+        db.setAvailable(quantities,pid,Exp_date)
+
+        sum+=(SP*quantities)
+
+        form_data=(id,pid,SRID,MRP,quantities,Discount,SP,GST)
+        db.insert_record("sale_details",form_data)
+
+    db.updatedetails("sale_reg","amount",sum,SRID)
     return jsonify({'message': 'Form submission successful'}), 200
 
 @app.route("/inventory-repo")
@@ -192,8 +232,9 @@ def inventory_repo():
     
 @app.route("/customer_reg")
 def customer_reg():
+    data=db.getColumn("Customer_Name","customer_master")
     items=db.getExistingProductName()
-    return render_template("customer_reg.html",items=items) 
+    return render_template("customer_reg.html",data=data,items=items) 
 
 @app.route('/get_items_customer', methods=['GET'])
 def get_items_consumer():

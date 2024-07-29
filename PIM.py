@@ -83,14 +83,13 @@ class Database:
                               Quantity INT,
                               Discount FLOAT,
                               SP FLOAT,
-                              GST FLOAT,
-                              Sale_date Date
+                              GST FLOAT
                               );
             ''')
             self.curr.execute('''
                 CREATE TABLE IF NOT EXISTS sale_reg(
                               ID INT PRIMARY KEY,
-                              Bill_No INT,
+                              Billno INT,
                               amount FLOAT,
                               CID INT REFERENCES customer_master(ID),
                               Bill_date date
@@ -199,13 +198,25 @@ class Database:
         except:
             print("ERROR FINDING DATA")
 
-    def  updatedetails(self,tname,colname,amount,data):
+    def updatedetails(self,tname,colname,amount,id):
         try:
             query=f"UPDATE {tname} SET {colname} = ? WHERE ID = ?"
-            self.curr.execute(query,(amount,data))
+            self.curr.execute(query,(amount,id))
             self.conn.commit()
         except:
             print("ERROR UPDATING")
+
+    def setAvailable(self, amount,pid,exp_date):
+        try:
+            query = "SELECT AVAILABLE FROM purchase_detail WHERE PID = ? AND Exp_Date = ?"
+            self.curr.execute(query,(pid,exp_date))
+            result = self.curr.fetchone()[0]
+            newQuantity = result-amount
+            query = "UPDATE purchase_detail SET AVAILABLE = ? WHERE PID = ? AND Exp_Date = ?"
+            self.curr.execute(query,(newQuantity,pid,exp_date))
+            self.conn.commit()
+        except:
+            print("ERROR SETTING AVAILABLE")
 
     def getMRP(self,tname,col,data):
         try:
@@ -262,6 +273,15 @@ class Database:
             return [row[0].strftime("%Y-%m-%d") for row in result]
         except:
             print("ERROR FINDING DATA")
+
+    def getGST(self,id):
+        try:
+            query=f"SELECT GST FROM item_master WHERE ID = ?"
+            self.curr.execute(query,(id,))
+            result = self.curr.fetchone()[0]
+            return result
+        except:
+            print("ERROR FINDING DATA")
     
     def insert_record(self,tname,form_data):
         if tname == 'item_master':
@@ -295,7 +315,7 @@ class Database:
                 self.conn.commit()
         if tname == 'sale_details':
             try:
-                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?,?,?,?)",form_data)
+                self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?,?,?,?)",form_data)
             finally:
                 self.conn.commit()
         if tname == 'sale_reg':
