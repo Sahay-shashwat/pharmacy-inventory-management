@@ -91,7 +91,7 @@ body {
         max-height: fit-content;
       }
 
-      #addField, #submit {
+      #addField, #submit,#dashboard {
         background-color: #003049;
         color: white;
         padding: 10px 20px;
@@ -99,5 +99,6 @@ body {
         border-radius: 5px;
         cursor: pointer;
         margin-top: 20px;
-        text-align: center;;
+        text-align: center;
+        margin-left: 20px;
       }

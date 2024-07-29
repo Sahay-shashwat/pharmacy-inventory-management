@@ -45,7 +45,7 @@ body {
     }
           
     #dynamicForm .field-group .field {
-        flex-basis: calc((100% - 3*20px)/4); /* width of each field minus the gap */
+        flex-basis: calc((100% - 3*20px)/3); /* width of each field minus the gap */
         display: flex;
         flex-direction: column;
         margin-top: 10px;
@@ -95,7 +95,7 @@ body {
         margin-bottom: 10px;
       }
 
-      #addField, #submit {
+      #addField, #submit, #dashboard {
         background-color: #003049;
         color: white;
         padding: 10px 20px;
@@ -103,5 +103,6 @@ body {
         border-radius: 5px;
         cursor: pointer;
         margin-top: 20px;
-        text-align: center;;
+        text-align: center;
+        margin-left: 20px;
       }
