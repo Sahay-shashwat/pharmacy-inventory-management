@@ -50,6 +50,7 @@ font-family: "Source Sans Pro", sans-serif;
   }
   
   input[type="text"],
+  input[type="number"],
   select,
   textarea {
     width: 100%;
