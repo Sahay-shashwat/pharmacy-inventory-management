@@ -63,12 +63,12 @@
                         
                         <div class="field">
                             <label for="Quantity">Quantity<span class="required">*</span></label><br>
-                            <input type="number" name="quantity[]" id="Quantity" placeholder="Enter Quantity *" required>
+                            <input type="number" name="quantity[]" id="Quantity" placeholder="Enter Quantity *" required min="1" oninput="validateQuantity(this.value,$('#medicine').val(),$('#MRP').val(),$('#Exp_date').val())">
                         </div>
                         
                         <div class="field">
                             <label for="Discount">Discount %</label><br>
-                            <input type="number" name="Discount[]" id="Discount" placeholder="Enter Discount%">
+                            <input type="number" name="Discount[]" id="Discount" placeholder="Enter Discount%" min="0">
                         </div>
                         
                             <label for="remove"></label>

@@ -212,6 +212,7 @@ class Database:
             self.curr.execute(query,(pid,exp_date))
             result = self.curr.fetchone()[0]
             newQuantity = result-amount
+            print(result,amount,newQuantity)
             query = "UPDATE purchase_detail SET AVAILABLE = ? WHERE PID = ? AND Exp_Date = ?"
             self.curr.execute(query,(newQuantity,pid,exp_date))
             self.conn.commit()
@@ -278,6 +279,15 @@ class Database:
         try:
             query=f"SELECT GST FROM item_master WHERE ID = ?"
             self.curr.execute(query,(id,))
+            result = self.curr.fetchone()[0]
+            return result
+        except:
+            print("ERROR FINDING DATA")
+
+    def getAvailability(self,tname,pid,MRP,Exp_date):
+        try:
+            query=f"SELECT AVAILABLE FROM {tname} WHERE PID = ? AND MRP = ? AND Exp_Date = ?"
+            self.curr.execute(query,(pid,MRP,Exp_date))
             result = self.curr.fetchone()[0]
             return result
         except:

@@ -4,7 +4,42 @@ document.addEventListener('DOMContentLoaded', function() {
     const fieldsContainer = document.getElementById('fieldsContainer');
     const addFieldButton = document.getElementById('addField');
 
-    // Function to add new field
+
+    function validateQuantity(quantity,medicine,MRP,Exp_date) {
+      const enteredQuantity=quantity;
+      $.ajax({
+          type: 'GET',
+          url: '/get_available_quantity',
+          data: {
+            medicine: medicine,
+            MRP:MRP,
+            Exp_date:Exp_date
+          },
+          success: function(response) {
+              const availableQuantity = response.available_quantity;
+              if (enteredQuantity > availableQuantity) {
+                  alert('Quantity exceeds available stock!');
+                  $('#Quantity').val('');
+              }
+          },
+          error: function(xhr, status, error) {
+            console.error('Error:', error);
+          }
+      });
+    }
+
+
+    fieldsContainer.addEventListener('input', function(event) {
+      if (event.target.classList.contains('Quantity-select')) {
+        const quantity = event.target.value;
+        const fieldGroup = event.target.closest('.field-group');
+        const medicine = fieldGroup.querySelector('.medicine-select').value;
+        const MRP = fieldGroup.querySelector('.MRP-select').value;
+        const Exp_date = fieldGroup.querySelector('.Exp_date-select').value;
+        validateQuantity(quantity, medicine, MRP, Exp_date);
+      }
+    });
+    
     function addField() {
       const newField = document.createElement('div');
       newField.classList.add('field-group');
@@ -26,12 +61,12 @@ document.addEventListener('DOMContentLoaded', function() {
             
             <div class="field">
                 <label for="Quantity">Quantity<span class="required">*</span></label><br>
-                <input type="number" name="quantity[]" id="Quantity" placeholder="Enter Quantity *" required>
+                <input type="number" name="quantity[]" class="Quantity-select" placeholder="Enter Quantity *" required min="1">
             </div>
             
             <div class="field">
                 <label for="Discount">Discount %</label><br>
-                <input type="number" name="Discount[]" id="Discount" placeholder="Enter Discount%">
+                <input type="number" name="Discount[]" id="Discount" placeholder="Enter Discount%" min="0">
             </div>
             
                 <label for="remove"></label>
@@ -80,7 +115,6 @@ document.addEventListener('DOMContentLoaded', function() {
                       timeout:5000,
                       }).then(function(data) {
                           var items=data;
-                          console.log(data);
                           $('.Exp_date-select').empty();
                           $('.Exp_date-select').append(`<option value="" selected disabled hidden>SELECT EXPIRY DATE</option>`);
                           items.forEach(function(option) {
@@ -172,3 +206,23 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
   }
+
+function validateQuantity(quantity,medicine,MRP,Exp_date) {
+  const enteredQuantity=quantity;
+  $.ajax({
+      type: 'GET',
+      url: '/get_available_quantity',
+      data: {
+        medicine: medicine,
+        MRP:MRP,
+        Exp_date:Exp_date
+      },
+      success: function(response) {
+          const availableQuantity = response.available_quantity;
+          if (enteredQuantity > availableQuantity) {
+              alert('Quantity exceeds available stock!');
+              $('#Quantity').val('');
+          }
+      }
+  });
+}

@@ -20,13 +20,13 @@
             <textarea id="address" name="address" required></textarea><br>
     
             <label for="mobile">Contact Number<span class="required">*</span></label><br>
-            <input type="number" id="mobile" name="mobile" required><br>
+            <input type="text" id="mobile" name="mobile" pattern="[0-9]{10}" minlength="10" maxlength="10" required><br>
 
             <label for="GSTIN">GSTIN<span class="required">*</span></label><br>
-            <input type="number" id="GSTIN" name="GSTIN" required><br>
+            <input type="text" id="GSTIN" name="GSTIN" maxlength="11" minlength="11" required><br>
 
             <label for="drug_lisc">Drug Licence Number<span class="required">*</span></label><br>
-            <input type="number" id="drug_lisc" name="drug_lisc" required><br>
+            <input type="number" id="drug_lisc" name="drug_lisc" maxlength="7" minlength="7" required><br>
             
             <div id="err">
                 {% if error%}

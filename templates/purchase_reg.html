@@ -56,12 +56,12 @@
 
                         <div class="field">
                             <label for="Rate">Rate<span class="required">*</span></label><br>
-                            <input type="text" name="rate[]" id="Rate" placeholder="Enter Rate *" required>
+                            <input type="text" name="rate[]" id="Rate" placeholder="Enter Rate *" required pattern="[0-9.]+">
                         </div>
 
                         <div class="field">
                             <label for="Quantity">Quantity<span class="required">*</span></label><br>
-                            <input type="number" name="quantity[]" id="Quantity" placeholder="Enter Quantity *" required>
+                            <input type="number" name="quantity[]" id="Quantity" placeholder="Enter Quantity *" required min="1">
                         </div>
 
                         <div class="field">
@@ -76,7 +76,7 @@
 
                         <div class="field">
                             <label for="MRP">MRP<span class="required">*</span></label><br>
-                            <input type="text" name="MRP[]" id="MRP" placeholder="Enter MRP *" required>
+                            <input type="text" name="MRP[]" id="MRP" placeholder="Enter MRP *" required pattern="[0-9.]+">
                         </div>
                         
                             <label for="remove"></label>

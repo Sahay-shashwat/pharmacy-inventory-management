@@ -17,10 +17,10 @@
             <input type="text" id="product_name" name="product_name" required><br>
 
             <label for="HSM">HSM Code<span class="required">*</span></label><br>
-            <input type="text" id="HSM" name="HSM" required><br>
+            <input type="text" id="HSM" name="HSM" required minlength="11" maxlength="11"><br>
 
             <label for="GST">GST Percentage<span class="required">*</span></label><br>
-            <input type="number" id="GST" name="GST" required><br>
+            <input type="number" id="GST" name="GST" required min="0"><br>
             
             <div id="err">
                 {% if error%}

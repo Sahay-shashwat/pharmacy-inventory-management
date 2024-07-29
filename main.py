@@ -266,5 +266,15 @@ def getExpDate():
         expDate.append({"value":str(i),"ExpDate":name})
     return jsonify(expDate)
 
+
+@app.route('/get_available_quantity', methods=['GET'])
+def get_available_quantity():
+    medicine = request.args.get('medicine', None).replace("('","").replace("',)","")
+    MRP = request.args.get('MRP')
+    Exp_date=request.args.get('Exp_date')
+    pid=db.getReferenceID("item_master","Product_name",medicine)
+    available_quantity = db.getAvailability("purchase_detail",pid,MRP,Exp_date)
+    return jsonify({'available_quantity': available_quantity})
+
 if __name__ == '__main__':
     app.run(debug=True)
