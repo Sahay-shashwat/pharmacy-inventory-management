@@ -250,9 +250,10 @@ class Database:
                 item=self.curr.fetchall()
                 if len(item)!=0:
                     result.append(item)
-            for i in range(len(result)):
-                result[i]=result[i][0] 
-            return result
+            items=[]
+            for i in range(len(result[0])):
+                items.append(result[0][i])
+            return items
         except Exception as e:
             print(e)
             print("ERROR FINDING DATA")
