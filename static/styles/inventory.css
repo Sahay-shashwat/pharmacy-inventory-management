@@ -1,6 +1,6 @@
 body {
-  background-color: #BBD5ED;
-  color: #38023B;
+  background-color: #DCCFEC;
+  color: white;
   font-family: "Inter", sans-serif;
   font-family: "Source Sans Pro", sans-serif;
   overflow: hidden;
@@ -11,10 +11,10 @@ body {
   }
 
   #table #table-body{
-    font-family: "Inter", sans-serif;
-    font-family: "Source Sans Pro", sans-serif;
+    font-family: "Inter", sans-serif !important;
+    font-family: "Source Sans Pro", sans-serif !important;
     text-align: center;
-
+    background-color: #A997DF;
   }
   
   #head{
@@ -24,6 +24,7 @@ body {
       transform: translateX(-50%);
       width: 500px;
       padding: 50px;
+      color: #38023B;
     }
     
   .required{
@@ -137,7 +138,7 @@ body {
       text-align: center;
       position: sticky;
       top: 0;
-      background-color: #fcbf49;
+      background-color: #4F517D;
     }
   
     tr,td{
