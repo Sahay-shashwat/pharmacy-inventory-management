@@ -294,6 +294,26 @@ class Database:
         except:
             print("ERROR FINDING DATA")
     
+    def getGSTIN(self,vendor):
+        try:
+            query=f"SELECT GSTIN FROM vendor_master WHERE Vendor_Name = ?"
+            self.curr.execute(query,(vendor,))
+            result=self.curr.fetchall()
+            return result
+        except:
+            print("ERROR FINDING DATA")
+
+    def deleteData(self,name,gstin):
+        try:
+            query=f"DELETE FROM vendor_master WHERE Vendor_Name= ? AND GSTIN = ?"
+            print(query)
+            self.curr.execute(query,(name,gstin))
+            print(name,gstin)
+            self.conn.commit()
+            print(True)
+        except:
+            print("ERROR DELETING DATA")
+
     def insert_record(self,tname,form_data):
         if tname == 'item_master':
             try:
@@ -334,6 +354,7 @@ class Database:
                 self.curr.execute(f"INSERT INTO {tname} VALUES (?,?,?,?,?)",form_data)
             finally:
                 self.conn.commit()
+
     
     def __del__(self):
         try:

@@ -275,5 +275,27 @@ def get_available_quantity():
     available_quantity = db.getAvailability("purchase_detail",pid,MRP,Exp_date)
     return jsonify({'available_quantity': available_quantity})
 
+@app.route('/vendor_delete')
+def vendor_det():
+    data=db.getColumn("Vendor_Name","vendor_master")
+    return render_template("delete_vendor.html",data=data) 
+
+@app.route('/vendor_delete',methods=['POST'])
+def vendor_delete():
+    vendor_name=request.form['vendor_name'].replace("('","").replace("',)","")
+    gstin=request.form['GST'].replace("('","").replace("',)","")
+    db.deleteData(vendor_name,gstin)
+    return redirect('dashboard')
+
+@app.route('/getGST', methods=['GET'])
+def getGST():
+    vendor=request.args.get('vendor').replace("('","").replace("',)","")
+    print(vendor)
+    data=db.getGSTIN(vendor)
+    result=[]
+    for i,name in enumerate(data):
+        result.append({"index":str(i),"GST":name})
+    return jsonify(result)
+
 if __name__ == '__main__':
     app.run(debug=True)

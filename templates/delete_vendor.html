@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/forms.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Delete Vendor</title>
+</head>
+<body>
+    <div id = "head">
+        <h1> DELETE VENDOR </h1>
+    </div>
+    <div>
+        <form action='/vendor_delete' method="POST" enctype="multipart/form-data" id="form">
+            <label for="vendor_name">Vendor Name<span class="required">*</span></label><br>
+            <select id="vendor_name" name="vendor_name" required onchange="getGST(this.value)">
+                <option value=""selected disabled hidden>SELECT VENDOR</option>
+                    {% block vendor %}
+                        {% for item in data %}
+                            <option value="{{ item }}">{{ item[0] }}</option>
+                        {% endfor %}
+                    {% endblock %}
+            </select><br>
+
+            <label for="GST">GST<span class="required">*</span></label><br>
+            <select id="GST" name="GST"></select>
+
+
+
+            <div id="btn">
+                <input type="submit" id="submit" value="SUBMIT">
+                <a href="{{url_for('dashboard')}}"><button id="button" type="button" onclick="">DASHBOARD</button></a>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript" src= "{{ url_for('static',filename='js/delete_vendor.js') }}"></script>
+</body>
+
+</html>
