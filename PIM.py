@@ -191,7 +191,7 @@ class Database:
 
     def getExistingProductName(self):
         try:
-            query="SELECT Product_name FROM item_master,purchase_detail WHERE item_master.ID = purchase_detail.PID AND purchase_detail.AVAILABLE != 0"
+            query="SELECT DISTINCT Product_name FROM item_master,purchase_detail WHERE item_master.ID = purchase_detail.PID AND purchase_detail.AVAILABLE != 0"
             self.curr.execute(query)
             result = self.curr.fetchall()
             return result
