@@ -243,7 +243,7 @@ class Database:
 
     def getDetails(self,id,tname):
         try:
-            query=f"SELECT PID,Manf_Date,Exp_Date,MRP,QUANTITY FROM {tname} WHERE PID = ? AND AVAILABLE > 0"
+            query=f"SELECT PID,Manf_Date,Exp_Date,MRP,AVAILABLE FROM {tname} WHERE PID = ? AND AVAILABLE > 0"
             result=[]
             for PID in id:
                 self.curr.execute(query,(PID,))

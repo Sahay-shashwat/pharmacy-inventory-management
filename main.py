@@ -221,7 +221,6 @@ def inventory_repo():
         for i in range(len(data)):
             data[i][1]=data[i][1].strftime("%Y-%m-%d")
             data[i][2]=data[i][2].strftime("%Y-%m-%d")
-        print(data)
         result=[]
         for i,item in enumerate(data):
             result.append({"index":str(i),"value":item})
